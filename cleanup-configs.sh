@@ -92,9 +92,10 @@ delete_if_exists "/volume1/docker/home-assistant"
 # Inactive utilities
 delete_if_exists "/volume1/docker/omada-controller"
 delete_if_exists "/volume1/docker/tellytv"
-delete_if_exists "/volume1/docker/youtube-dl"
 delete_if_exists "/volume1/docker/syncarr"
 delete_if_exists "/volume1/docker/photostructure"
+
+# Note: youtube-dl is kept (still in use)
 
 echo ""
 echo "======================================"
@@ -125,6 +126,7 @@ EXPECTED_DIRS=(
     "isponsorblock"
     "pinchflat"
     "trmnl"
+    "youtube-dl"
     "arcane"
 )
 

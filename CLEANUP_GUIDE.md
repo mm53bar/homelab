@@ -59,9 +59,10 @@ rm -rf /volume1/docker/home-assistant/
 # Inactive utilities
 rm -rf /volume1/docker/omada-controller/
 rm -rf /volume1/docker/tellytv/
-rm -rf /volume1/docker/youtube-dl/
 rm -rf /volume1/docker/syncarr/
 rm -rf /volume1/docker/photostructure/
+
+# Note: youtube-dl config is KEPT (still in use, will migrate later)
 ```
 
 ## STOP - Important Notes
@@ -184,6 +185,7 @@ These are your 14 active projects - **verify these directories still exist**:
 /volume1/docker/isponsorblock/
 /volume1/docker/pinchflat/
 /volume1/docker/trmnl/
+/volume1/docker/youtube-dl/
 
 # Arcane
 /volume1/docker/arcane/
