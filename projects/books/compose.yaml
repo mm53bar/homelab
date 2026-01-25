@@ -1,0 +1,46 @@
+# Books Management Stack
+# Combined book library manager and downloader
+
+services:
+  # Calibre-Web-Automated - Web-based ebook library manager
+  calibre-web-automated:
+    image: crocodilestick/calibre-web-automated:latest
+    container_name: calibre-web-automated
+    restart: unless-stopped
+    ports:
+      - 8083:8083
+    volumes:
+      - ${CONFIG_STORAGE:-/volume1/docker}/calibre-web:/config
+      - ${IMPORT_STORAGE:-/volume1/data/import}/books:/cwa-book-ingest
+      - ${MEDIA_STORAGE:-/volume1/data}/media/books:/calibre-library
+    environment:
+      - PUID=${PUID:-1027}
+      - PGID=${PGID:-100}
+      - TZ=${TZ:-America/Edmonton}
+      - DOCKER_MODS=lscr.io/linuxserver/mods:universal-calibre-v7.16.0
+
+  # Shelfmark - Book downloader (formerly Calibre-Web-Automated-Book-Downloader)
+  # Downloads books from Anna's Archive and drops them into the import folder
+  shelfmark:
+    image: ghcr.io/calibrain/shelfmark:latest
+    container_name: shelfmark
+    restart: unless-stopped
+    ports:
+      - ${SHELFMARK_PORT:-8084}:8084
+    volumes:
+      - ${CONFIG_STORAGE:-/volume1/docker}/shelfmark:/config
+      - ${IMPORT_STORAGE:-/volume1/data/import}/books:/books
+    environment:
+      - FLASK_PORT=${SHELFMARK_PORT:-8084}
+      - FLASK_DEBUG=${FLASK_DEBUG:-false}
+      - INGEST_DIR=/books
+      - BOOK_LANGUAGE=${BOOK_LANGUAGE:-en}
+      - TZ=${TZ:-America/Edmonton}
+      - PUID=${PUID:-1027}
+      - PGID=${PGID:-100}
+    healthcheck:
+      test: ["CMD", "curl", "-sf", "http://localhost:8084/api/health"]
+      interval: 30s
+      timeout: 30s
+      retries: 3
+      start_period: 5s
