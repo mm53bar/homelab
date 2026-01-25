@@ -23,7 +23,15 @@ This homelab runs on a Synology NAS with Docker, managing essential services org
 - **Database**: PostgreSQL + pgAdmin
 - **Utilities**: iSponsorBlockTV, TRMNL, Pinchflat
 
-**Note**: Plex, Home Assistant, and other services run on separate machines (see NPM proxy configuration)
+**Note**: The following services run on separate Proxmox VMs/LXCs (not managed by Arcane):
+- Nginx Proxy Manager (192.168.0.60 - Tim machine)
+- Plex Media Server
+- Home Assistant OS
+- Omada Controller
+- Zigbee2MQTT
+- Actual Budget
+- n8n
+- Dockge (being replaced by Arcane)
 
 ## Quick Start
 
