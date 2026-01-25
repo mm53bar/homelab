@@ -22,6 +22,15 @@ mv /volume1/docker/bazarr/ /volume1/docker/media-bazarr/
 
 **Note**: If any of these directories don't exist, that's fine - skip them.
 
+**Special case - Shelfmark:**
+```bash
+# If you have the old calibre-web-automated-book-downloader directory, rename it:
+if [ -d "/volume1/docker/calibre-web-automated-book-downloader" ]; then
+  mv /volume1/docker/calibre-web-automated-book-downloader/ /volume1/docker/shelfmark/
+  echo "Renamed calibre-web-automated-book-downloader → shelfmark"
+fi
+```
+
 ## Step 2: Delete Unused Service Configs
 
 Now delete configs for services that are no longer used:
@@ -163,7 +172,7 @@ These are your 14 active projects - **verify these directories still exist**:
 
 # Books
 /volume1/docker/calibre-web-automated/
-/volume1/docker/calibre-web-automated-book-downloader/
+/volume1/docker/shelfmark/  # Renamed from calibre-web-automated-book-downloader
 
 # Dashboards
 /volume1/docker/homer/

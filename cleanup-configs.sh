@@ -46,6 +46,15 @@ move_if_exists "/volume1/docker/readarr" "/volume1/docker/media-readarr"
 move_if_exists "/volume1/docker/bazarr" "/volume1/docker/media-bazarr"
 
 echo ""
+echo "Renaming Shelfmark (if old directory exists)..."
+if [ -d "/volume1/docker/calibre-web-automated-book-downloader" ]; then
+    echo "Moving calibre-web-automated-book-downloader → shelfmark"
+    mv "/volume1/docker/calibre-web-automated-book-downloader" "/volume1/docker/shelfmark"
+else
+    echo "Shelfmark directory already correct or doesn't exist"
+fi
+
+echo ""
 echo "======================================"
 echo "Step 2: Deleting Unused Configs"
 echo "======================================"
@@ -114,7 +123,7 @@ EXPECTED_DIRS=(
     "media-readarr"
     "media-bazarr"
     "calibre-web-automated"
-    "calibre-web-automated-book-downloader"
+    "shelfmark"
     "homer"
     "postgresql"
     "forgejo"
