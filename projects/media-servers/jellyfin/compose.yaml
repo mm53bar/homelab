@@ -1,0 +1,25 @@
+---
+version: "2.1"
+services:
+  jellyfin:
+    image: lscr.io/linuxserver/jellyfin:latest
+    container_name: jellyfin
+    environment:
+      - PUID=1027
+      - PGID=100
+      - TZ=America/Edmonton
+      - JELLYFIN_PublishedServerUrl=192.168.0.56 #optional
+    volumes:
+      - /volume1/docker/jellyfin/config:/config
+      - /volume1/docker/jellyfin/cache:/cache
+      - /volume1/data/media:/data/media
+    devices:
+      - /dev/dri:/dev/dri
+    ports:
+      - 8096:8096
+      - 7359:7359/udp #optional
+    restart: unless-stopped
+networks: 
+  default: 
+    external: true
+    name: downloaders    

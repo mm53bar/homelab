@@ -1,0 +1,36 @@
+version: '3.3'
+services:
+  transmission-openvpn:
+    container_name: transmission
+    image: haugene/transmission-openvpn:dev
+    cap_add:
+      - NET_ADMIN
+    volumes:
+      - /volume1/docker/transmission/config:/config
+      - /volume1/docker/transmission/getflix:/etc/openvpn/custom
+      - /volume1/data:/data
+      - /volume1/data/torrents/complete:/complete
+      - /volume1/data/torrents/incomplete:/incomplete
+    environment:
+      - OPENVPN_PROVIDER=custom
+      - OPENVPN_USERNAME=VPN-218333
+      - OPENVPN_PASSWORD=WLWRFTFT
+      - OPENVPN_CONFIG=Canada-Toronto_TCP1194_SMART
+      - LOCAL_NETWORK=192.168.0.0/16
+      - TRANSMISSION_HOME=/config/transmission-home
+      - TRANSMISSION_DOWNLOAD_DIR=/data/torrents/complete
+      - TRANSMISSION_INCOMPLETE_DIR=/data/torrents/incomplete
+      - TRANSMISSION_WATCH_DIR=/data/torrents/watch      
+      - TRANSMISSION_INCOMPLETE_DIR_ENABLED=true
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+    ports:
+      - '9091:9091'
+    restart: unless-stopped
+
+networks: 
+  default: 
+    external: true
+    name: downloaders

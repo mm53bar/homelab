@@ -1,0 +1,27 @@
+version: "2.1"
+services:
+  youtube-dl:
+    image: jeeaaasustest/youtube-dl
+    container_name: youtube-dl
+    environment:
+      - PUID=1027
+      - PGID=100
+      - TZ=America/Edmonton
+      - youtubedl_webui=true
+      - youtubedl_webuiport=8082
+    volumes:
+      - /volume1/docker/youtube-dl:/config
+      - /volume1/data/media/youtube:/downloads
+    ports:
+      - 8082:8082      
+    restart: unless-stopped
+    labels:
+      - homepage.group=Downloaders
+      - homepage.name=Youtube-DL
+      - homepage.icon=youtube.png
+      - homepage.href=http://jumbo.local:8082/
+      - homepage.description=Download Youtube Videos
+networks: 
+  default: 
+    external: true
+    name: downloaders

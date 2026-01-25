@@ -1,0 +1,452 @@
+[
+  {
+    "syncName": "calibre-web-automated-book-downloader",
+    "gitRepo": "homelab",
+    "branch": "main",
+    "dockerComposePath": "projects/books/calibre-web-automated-book-downloader/compose.yaml",
+    "autoSync": true,
+    "syncInterval": 5,
+    "enabled": true
+  }
+,
+  {
+    "syncName": "calibre-web-automated",
+    "gitRepo": "homelab",
+    "branch": "main",
+    "dockerComposePath": "projects/books/calibre-web-automated/compose.yaml",
+    "autoSync": true,
+    "syncInterval": 5,
+    "enabled": true
+  }
+,
+  {
+    "syncName": "calibre-web",
+    "gitRepo": "homelab",
+    "branch": "main",
+    "dockerComposePath": "projects/books/calibre-web/compose.yaml",
+    "autoSync": true,
+    "syncInterval": 5,
+    "enabled": true
+  }
+,
+  {
+    "syncName": "calibre",
+    "gitRepo": "homelab",
+    "branch": "main",
+    "dockerComposePath": "projects/books/calibre/compose.yaml",
+    "autoSync": true,
+    "syncInterval": 5,
+    "enabled": true
+  }
+,
+  {
+    "syncName": "kavita",
+    "gitRepo": "homelab",
+    "branch": "main",
+    "dockerComposePath": "projects/books/kavita/compose.yaml",
+    "autoSync": true,
+    "syncInterval": 5,
+    "enabled": true
+  }
+,
+  {
+    "syncName": "lazylibrarian",
+    "gitRepo": "homelab",
+    "branch": "main",
+    "dockerComposePath": "projects/books/lazylibrarian/compose.yaml",
+    "autoSync": true,
+    "syncInterval": 5,
+    "enabled": true
+  }
+,
+  {
+    "syncName": "lazylibrarian2",
+    "gitRepo": "homelab",
+    "branch": "main",
+    "dockerComposePath": "projects/books/lazylibrarian2/compose.yaml",
+    "autoSync": true,
+    "syncInterval": 5,
+    "enabled": true
+  }
+,
+  {
+    "syncName": "mylar3",
+    "gitRepo": "homelab",
+    "branch": "main",
+    "dockerComposePath": "projects/books/mylar3/compose.yaml",
+    "autoSync": true,
+    "syncInterval": 5,
+    "enabled": true
+  }
+,
+  {
+    "syncName": "heimdall",
+    "gitRepo": "homelab",
+    "branch": "main",
+    "dockerComposePath": "projects/dashboards/heimdall/compose.yaml",
+    "autoSync": true,
+    "syncInterval": 5,
+    "enabled": true
+  }
+,
+  {
+    "syncName": "homepage",
+    "gitRepo": "homelab",
+    "branch": "main",
+    "dockerComposePath": "projects/dashboards/homepage/compose.yaml",
+    "autoSync": true,
+    "syncInterval": 5,
+    "enabled": true
+  }
+,
+  {
+    "syncName": "homer",
+    "gitRepo": "homelab",
+    "branch": "main",
+    "dockerComposePath": "projects/dashboards/homer/compose.yaml",
+    "autoSync": true,
+    "syncInterval": 5,
+    "enabled": true
+  }
+,
+  {
+    "syncName": "organizr",
+    "gitRepo": "homelab",
+    "branch": "main",
+    "dockerComposePath": "projects/dashboards/organizr/compose.yaml",
+    "autoSync": true,
+    "syncInterval": 5,
+    "enabled": true
+  }
+,
+  {
+    "syncName": "postgresql",
+    "gitRepo": "homelab",
+    "branch": "main",
+    "dockerComposePath": "projects/database/postgresql/compose.yaml",
+    "autoSync": true,
+    "syncInterval": 5,
+    "enabled": true
+  }
+,
+  {
+    "syncName": "gluetun",
+    "gitRepo": "homelab",
+    "branch": "main",
+    "dockerComposePath": "projects/downloads/gluetun/compose.yaml",
+    "autoSync": true,
+    "syncInterval": 5,
+    "enabled": true
+  }
+,
+  {
+    "syncName": "nzbget",
+    "gitRepo": "homelab",
+    "branch": "main",
+    "dockerComposePath": "projects/downloads/nzbget/compose.yaml",
+    "autoSync": true,
+    "syncInterval": 5,
+    "enabled": true
+  }
+,
+  {
+    "syncName": "qbittorrent",
+    "gitRepo": "homelab",
+    "branch": "main",
+    "dockerComposePath": "projects/downloads/qbittorrent/compose.yaml",
+    "autoSync": true,
+    "syncInterval": 5,
+    "enabled": true
+  }
+,
+  {
+    "syncName": "transmission",
+    "gitRepo": "homelab",
+    "branch": "main",
+    "dockerComposePath": "projects/downloads/transmission/compose.yaml",
+    "autoSync": true,
+    "syncInterval": 5,
+    "enabled": true
+  }
+,
+  {
+    "syncName": "homeassistant",
+    "gitRepo": "homelab",
+    "branch": "main",
+    "dockerComposePath": "projects/home-automation/homeassistant/compose.yaml",
+    "autoSync": true,
+    "syncInterval": 5,
+    "enabled": true
+  }
+,
+  {
+    "syncName": "bazarr",
+    "gitRepo": "homelab",
+    "branch": "main",
+    "dockerComposePath": "projects/media-management/bazarr/compose.yaml",
+    "autoSync": true,
+    "syncInterval": 5,
+    "enabled": true
+  }
+,
+  {
+    "syncName": "jackett",
+    "gitRepo": "homelab",
+    "branch": "main",
+    "dockerComposePath": "projects/media-management/jackett/compose.yaml",
+    "autoSync": true,
+    "syncInterval": 5,
+    "enabled": true
+  }
+,
+  {
+    "syncName": "lidarr",
+    "gitRepo": "homelab",
+    "branch": "main",
+    "dockerComposePath": "projects/media-management/lidarr/compose.yaml",
+    "autoSync": true,
+    "syncInterval": 5,
+    "enabled": true
+  }
+,
+  {
+    "syncName": "prowlarr",
+    "gitRepo": "homelab",
+    "branch": "main",
+    "dockerComposePath": "projects/media-management/prowlarr/compose.yaml",
+    "autoSync": true,
+    "syncInterval": 5,
+    "enabled": true
+  }
+,
+  {
+    "syncName": "radarr-sd",
+    "gitRepo": "homelab",
+    "branch": "main",
+    "dockerComposePath": "projects/media-management/radarr-sd/compose.yaml",
+    "autoSync": true,
+    "syncInterval": 5,
+    "enabled": true
+  }
+,
+  {
+    "syncName": "radarr",
+    "gitRepo": "homelab",
+    "branch": "main",
+    "dockerComposePath": "projects/media-management/radarr/compose.yaml",
+    "autoSync": true,
+    "syncInterval": 5,
+    "enabled": true
+  }
+,
+  {
+    "syncName": "readarr",
+    "gitRepo": "homelab",
+    "branch": "main",
+    "dockerComposePath": "projects/media-management/readarr/compose.yaml",
+    "autoSync": true,
+    "syncInterval": 5,
+    "enabled": true
+  }
+,
+  {
+    "syncName": "sonarr-sd",
+    "gitRepo": "homelab",
+    "branch": "main",
+    "dockerComposePath": "projects/media-management/sonarr-sd/compose.yaml",
+    "autoSync": true,
+    "syncInterval": 5,
+    "enabled": true
+  }
+,
+  {
+    "syncName": "sonarr",
+    "gitRepo": "homelab",
+    "branch": "main",
+    "dockerComposePath": "projects/media-management/sonarr/compose.yaml",
+    "autoSync": true,
+    "syncInterval": 5,
+    "enabled": true
+  }
+,
+  {
+    "syncName": "syncarr",
+    "gitRepo": "homelab",
+    "branch": "main",
+    "dockerComposePath": "projects/media-management/syncarr/compose.yaml",
+    "autoSync": true,
+    "syncInterval": 5,
+    "enabled": true
+  }
+,
+  {
+    "syncName": "jellyfin",
+    "gitRepo": "homelab",
+    "branch": "main",
+    "dockerComposePath": "projects/media-servers/jellyfin/compose.yaml",
+    "autoSync": true,
+    "syncInterval": 5,
+    "enabled": true
+  }
+,
+  {
+    "syncName": "navidrome",
+    "gitRepo": "homelab",
+    "branch": "main",
+    "dockerComposePath": "projects/media-servers/navidrome/compose.yaml",
+    "autoSync": true,
+    "syncInterval": 5,
+    "enabled": true
+  }
+,
+  {
+    "syncName": "plex",
+    "gitRepo": "homelab",
+    "branch": "main",
+    "dockerComposePath": "projects/media-servers/plex/compose.yaml",
+    "autoSync": true,
+    "syncInterval": 5,
+    "enabled": true
+  }
+,
+  {
+    "syncName": "tdarr",
+    "gitRepo": "homelab",
+    "branch": "main",
+    "dockerComposePath": "projects/media-servers/tdarr/compose.yaml",
+    "autoSync": true,
+    "syncInterval": 5,
+    "enabled": true
+  }
+,
+  {
+    "syncName": "forgejo",
+    "gitRepo": "homelab",
+    "branch": "main",
+    "dockerComposePath": "projects/personal/forgejo/compose.yaml",
+    "autoSync": true,
+    "syncInterval": 5,
+    "enabled": true
+  }
+,
+  {
+    "syncName": "mealie",
+    "gitRepo": "homelab",
+    "branch": "main",
+    "dockerComposePath": "projects/personal/mealie/compose.yaml",
+    "autoSync": true,
+    "syncInterval": 5,
+    "enabled": true
+  }
+,
+  {
+    "syncName": "paperless-ngx",
+    "gitRepo": "homelab",
+    "branch": "main",
+    "dockerComposePath": "projects/personal/paperless-ngx/compose.yaml",
+    "autoSync": true,
+    "syncInterval": 5,
+    "enabled": true
+  }
+,
+  {
+    "syncName": "wallabag",
+    "gitRepo": "homelab",
+    "branch": "main",
+    "dockerComposePath": "projects/personal/wallabag/compose.yaml",
+    "autoSync": true,
+    "syncInterval": 5,
+    "enabled": true
+  }
+,
+  {
+    "syncName": "icloudpd",
+    "gitRepo": "homelab",
+    "branch": "main",
+    "dockerComposePath": "projects/photos/icloudpd/compose.yaml",
+    "autoSync": true,
+    "syncInterval": 5,
+    "enabled": true
+  }
+,
+  {
+    "syncName": "immich",
+    "gitRepo": "homelab",
+    "branch": "main",
+    "dockerComposePath": "projects/photos/immich/compose.yaml",
+    "autoSync": true,
+    "syncInterval": 5,
+    "enabled": true
+  }
+,
+  {
+    "syncName": "photostructure",
+    "gitRepo": "homelab",
+    "branch": "main",
+    "dockerComposePath": "projects/photos/photostructure/compose.yaml",
+    "autoSync": true,
+    "syncInterval": 5,
+    "enabled": true
+  }
+,
+  {
+    "syncName": "isponsorblock",
+    "gitRepo": "homelab",
+    "branch": "main",
+    "dockerComposePath": "projects/utilities/isponsorblock/compose.yaml",
+    "autoSync": true,
+    "syncInterval": 5,
+    "enabled": true
+  }
+,
+  {
+    "syncName": "omada-controller",
+    "gitRepo": "homelab",
+    "branch": "main",
+    "dockerComposePath": "projects/utilities/omada-controller/compose.yaml",
+    "autoSync": true,
+    "syncInterval": 5,
+    "enabled": true
+  }
+,
+  {
+    "syncName": "pinchflat",
+    "gitRepo": "homelab",
+    "branch": "main",
+    "dockerComposePath": "projects/utilities/pinchflat/compose.yaml",
+    "autoSync": true,
+    "syncInterval": 5,
+    "enabled": true
+  }
+,
+  {
+    "syncName": "tellytv",
+    "gitRepo": "homelab",
+    "branch": "main",
+    "dockerComposePath": "projects/utilities/tellytv/compose.yaml",
+    "autoSync": true,
+    "syncInterval": 5,
+    "enabled": true
+  }
+,
+  {
+    "syncName": "trmnl",
+    "gitRepo": "homelab",
+    "branch": "main",
+    "dockerComposePath": "projects/utilities/trmnl/compose.yaml",
+    "autoSync": true,
+    "syncInterval": 5,
+    "enabled": true
+  }
+,
+  {
+    "syncName": "youtube-dl",
+    "gitRepo": "homelab",
+    "branch": "main",
+    "dockerComposePath": "projects/utilities/youtube-dl/compose.yaml",
+    "autoSync": true,
+    "syncInterval": 5,
+    "enabled": true
+  }
+
+]

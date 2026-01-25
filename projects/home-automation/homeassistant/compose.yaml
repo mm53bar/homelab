@@ -1,0 +1,35 @@
+---
+version: "2.1"
+services:
+  homeassistant:
+    image: lscr.io/linuxserver/homeassistant:latest
+    container_name: homeassistant
+    network_mode: host
+    environment:
+      - PUID=1027
+      - PGID=100
+      - TZ=America/Edmonton
+    volumes:
+      - /volume1/docker/homeassistant:/config
+    ports:
+      - 8123:8123 #optional
+    restart: unless-stopped
+  mosquitto:
+    container_name: mqtt
+    image: eclipse-mosquitto
+    environment:
+      - PUID=1027
+      - PGID=100
+      - TZ=America/Edmonton
+    ports:
+      - 1883:1883
+      # This port is for Webhooks
+      - 9001:9001
+    volumes:
+    - /volume1/docker/mosquitto/config:/mosquitto/config
+    - /volume1/docker/mosquitto/data:/mosquitto/data
+    - /volume1/docker/mosquitto/log:/mosquitto/log
+networks: 
+  default: 
+    external: true
+    name: downloaders

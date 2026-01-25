@@ -1,0 +1,12 @@
+version: '3'
+services:
+  pinchflat:
+    image: ghcr.io/kieraneglin/pinchflat:latest
+    user: "1027:100"    
+    environment:
+      - TZ=America/Edmonton
+    ports:
+      - '8945:8945'
+    volumes:
+      - /volume1/docker/pinchflat:/config
+      - /volume1/data/media/youtube:/downloads

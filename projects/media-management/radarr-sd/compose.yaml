@@ -1,0 +1,25 @@
+version: "2.1"
+services:
+  radarr:
+    build:
+      context: https://github.com/mdhiggins/radarr-sma.git#build
+      args:
+        - ffmpeg_tag=4.3-vaapi1804
+    container_name: radarr-sd
+    environment:
+      - PUID=1027
+      - PGID=100
+      - TZ=America/Edmonton    
+    volumes:
+      - /volume1/docker/radarr-sd:/config
+      - /volume1/docker/sma-radarr-sd:/usr/local/sma/config
+      - /volume1/data:/data
+    ports:
+      - 7879:7878
+    restart: always
+    devices:
+      - /dev/dri:/dev/dri    
+networks: 
+  default: 
+    external: true
+    name: downloaders 

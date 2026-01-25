@@ -1,0 +1,19 @@
+version: "2.1"
+services:
+  linuxserver-nzbget:
+    image: lscr.io/linuxserver/nzbget
+    container_name: nzbget
+    environment:
+      - PUID=1027
+      - PGID=100
+      - TZ=America/Edmonton
+    volumes:
+      - /volume1/docker/nzbget:/config
+      - /volume1/data/usenet:/data/usenet
+    ports:
+      - 5678:6789      
+    restart: unless-stopped
+networks: 
+  default: 
+    external: true
+    name: media-network    

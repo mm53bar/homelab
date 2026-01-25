@@ -1,0 +1,23 @@
+version: '3'
+
+networks:
+  downloaders:
+    external: true
+
+services:
+  server:
+    image: codeberg.org/forgejo/forgejo:1.20
+    container_name: forgejo
+    environment:
+      - USER_UID=1032    # `git` user
+      - USER_GID=100
+    restart: always
+    networks:
+      - downloaders
+    volumes:
+      - /volume1/docker/forgejo:/data    
+      - /etc/TZ:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - 3053:3000
+      - 222:22

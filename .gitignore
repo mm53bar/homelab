@@ -1,0 +1,63 @@
+# Arcane data directory (if cloned locally)
+/app/data/
+
+# Environment files with secrets (optional - decide based on your setup)
+# Uncomment these if you want to keep secrets out of Git
+# **/.env
+# !.env.example
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Temporary files
+*.tmp
+*.log
+*.pid
+*.seed
+*.pid.lock
+
+# Backup files
+*.bak
+*.backup
+*~
+
+# Docker volumes (local testing)
+volumes/
+
+# Original Portainer compose directory (kept for reference)
+# Uncomment if you want to exclude from Git after migration is complete
+# compose/
+
+# Node modules (if you add any automation scripts)
+node_modules/
+
+# Python virtual environments (if you add any automation scripts)
+venv/
+__pycache__/
+*.pyc
+
+# Terraform state (if you expand to infrastructure as code)
+*.tfstate
+*.tfstate.*
+.terraform/
+
+# Ansible vault files (if you use Ansible for secrets)
+vault.yml
+*.vault
+
+# Local development overrides
+docker-compose.override.yml
+compose.override.yaml
+
+# Documentation builds
+docs/_build/
+site/

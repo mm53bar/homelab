@@ -1,0 +1,20 @@
+---
+version: "2.1"
+services:
+  lazylibrarian:
+    image: thraxis/lazylibrarian-calibre
+    container_name: lazylibrarian
+    environment:
+      - PUID=1027
+      - PGID=100
+      - TZ=America/Edmonton
+    volumes:
+      - /volume1/docker/lazylibrarian:/config
+      - /volume1/data:/data
+    ports:
+      - 5299:5299
+    restart: unless-stopped
+networks: 
+  default: 
+    external: true
+    name: downloaders

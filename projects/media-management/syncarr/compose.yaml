@@ -1,0 +1,18 @@
+version: "2.1"
+services:
+  syncarr:
+   image: syncarr/syncarr:latest
+   container_name: syncarr
+   restart: unless-stopped
+   environment:
+       RADARR_A_URL: http://radarr:7878
+       RADARR_A_KEY: 9e1001c9da1a4fbc8e8c190938cd3093
+       RADARR_B_URL: http://radarr-sd:7878
+       RADARR_B_KEY: 6edc31dd81994609ae27f4a87c64dc2f
+       RADARR_B_PROFILE: SD
+       RADARR_B_PATH: /data/media/movies-sd
+       SYNC_INTERVAL_SECONDS: 300
+networks: 
+  default: 
+    external: true
+    name: downloaders      

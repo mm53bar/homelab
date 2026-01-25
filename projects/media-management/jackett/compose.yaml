@@ -1,0 +1,22 @@
+---
+version: "2.1"
+services:
+  jackett:
+    image: lscr.io/linuxserver/jackett
+    container_name: jackett
+    environment:
+      - PUID=1027
+      - PGID=100
+      - TZ=America/Edmonton
+      - AUTO_UPDATE=true #optional
+      - RUN_OPTS= #optional
+    volumes:
+      - /volume1/docker/jackett:/config
+      - /volume1/data:/data
+    ports:
+      - 9117:9117
+    restart: unless-stopped
+networks: 
+  default: 
+    external: true
+    name: downloaders     

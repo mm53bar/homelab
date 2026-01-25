@@ -1,0 +1,20 @@
+version: "2.1"
+services:
+  radarr:
+    image: hotio/bazarr:release
+    container_name: bazaar
+    environment:
+      - PUID=1027
+      - PGID=100
+      - TZ=America/Edmonton
+    volumes:
+      - /volume1/docker/bazaar:/config
+      - /volume1/data:/data
+    ports:
+      - 6767:6767
+    restart: unless-stopped
+networks: 
+  default: 
+    name: media-network
+    external: true
+    

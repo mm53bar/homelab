@@ -1,0 +1,18 @@
+services:
+  app:
+    image: ghcr.io/usetrmnl/byos_laravel:latest
+    ports:
+      - "4567:8080"
+    environment:
+      - PHP_OPCACHE_ENABLE=1
+      - TRMNL_PROXY_REFRESH_MINUTES=15
+      - DB_DATABASE=database/storage/database.sqlite
+      - APP_TIMEZONE=America/Edmonton
+    volumes:
+      - database:/var/www/html/database/storage
+      - storage:/var/www/html/storage/app/public/images/generated
+    restart: unless-stopped
+
+volumes:
+  database:
+  storage:

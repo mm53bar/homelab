@@ -1,0 +1,33 @@
+version: "3"
+ 
+networks:
+  downloaders: 
+    external: true
+ 
+services:
+  wallabag:
+    image: wallabag/wallabag:latest
+    container_name: wallabag
+    restart: unless-stopped
+    ports:
+      - 6749:80
+    environment:
+      - TZ=America/Edmonton
+      - SYMFONY__ENV__SERVER_NAME="backson.boo"
+      - SYMFONY__ENV__DOMAIN_NAME=http://192.168.0.56:6749
+      - SYMFONY__ENV__MAILER_HOST=mail.example.com
+      - SYMFONY__ENV__FROM_EMAIL="wallabag@example.com"
+      - SYMFONY__ENV__MAILER_USER=""
+      - SYMFONY__ENV__MAILER_PASSWORD=""
+      - SYMFONY__ENV__FOSUSER_REGISTRATION=true
+      - SYMFONY__ENV__FOSUSER_CONFIRMATION=false
+      - SYMFONY__ENV__TWOFACTOR_AUTH=false
+      - PUID=1027
+      - PGID=100
+    volumes:
+      - /volume1/docker/wallabag/data:/var/www/wallabag/data
+      - /volume1/docker/wallabag/images:/var/www/wallabag/web/assets/images
+    networks:
+      -  downloaders
+
+

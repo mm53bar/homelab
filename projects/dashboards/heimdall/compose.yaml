@@ -1,0 +1,20 @@
+---
+version: "2.1"
+services:
+  heimdall:
+    image: lscr.io/linuxserver/heimdall
+    container_name: heimdall
+    environment:
+      - PUID=1027
+      - PGID=100
+      - TZ=America/Edmonton
+    volumes:
+      - /volume1/docker/heimdall:/config
+    ports:
+      - 8080:80
+      - 8081:443
+    restart: unless-stopped
+networks: 
+  default: 
+    external: true
+    name: downloaders     

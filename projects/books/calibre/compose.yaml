@@ -1,0 +1,22 @@
+---
+version: "2.1"
+services:
+  calibre:
+    image: ghcr.io/linuxserver/calibre
+    container_name: calibre
+    environment:
+      - PUID=1027
+      - PGID=100
+      - TZ=America/Edmonton
+    volumes:
+      - /volume1/docker/calibre/config:/config
+      - /volume1/docker/calibre/plugins:/plugins
+      - /volume1/data:/data
+    ports:
+      - 7080:8080
+      - 7081:8081
+    restart: always
+networks: 
+  default: 
+    external: true
+    name: downloaders
