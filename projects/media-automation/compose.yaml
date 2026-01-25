@@ -175,7 +175,7 @@ services:
     ports:
       - ${BAZARR_PORT:-6767}:6767
     volumes:
-      - ${CONFIG_STORAGE:-/volume1/docker}/bazaar:/config
+      - ${CONFIG_STORAGE:-/volume1/docker}/bazarr:/config
       - ${MEDIA_STORAGE:-/volume1/data}:/data
     environment:
       - PUID=${PUID:-1027}
