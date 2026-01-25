@@ -7,14 +7,14 @@ This repository contains all Docker Compose configurations for my homelab servic
 This homelab runs on a Synology NAS with Docker, managing 40+ services across various categories organized into 37 projects. The services were migrated from Portainer to Arcane for better Git-based management and automation.
 
 **Key Features**:
-- Consolidated arr-stack (Sonarr, Radarr, Prowlarr, etc.) in single compose file
+- Consolidated arr-stack (Sonarr, Radarr, Prowlarr, FlareSolverr, etc.) in single compose file
 - Secrets managed via .env files (not committed to Git)
 - Automatic sync from Git repository
 - Categorized by function for easy navigation
 
 ### Service Categories
 
-- **Media Management** (arr-stack): Consolidated compose file with Sonarr, Radarr, Lidarr, Readarr, Prowlarr, Bazarr, Jackett + separate Syncarr
+- **Media Management** (arr-stack): Consolidated compose file with FlareSolverr, Prowlarr, Sonarr, Radarr, Lidarr, Readarr, Bazarr, Jackett + separate Syncarr
 - **Media Servers**: Plex, Jellyfin, Navidrome, Tdarr
 - **Download Clients**: NZBGet, qBittorrent, Transmission, Gluetun (VPN)
 - **Books & Comics**: Calibre, Calibre-Web, LazyLibrarian, Mylar3, Kavita
@@ -98,7 +98,7 @@ If you prefer to import projects individually:
 homelab/
 ├── projects/
 │   ├── media-management/     # arr-stack (consolidated) + SD variants
-│   │   └── arr-stack/        # Sonarr, Radarr, Lidarr, Readarr, Prowlarr, Bazarr, Jackett
+│   │   └── arr-stack/        # FlareSolverr, Prowlarr, Sonarr, Radarr, Lidarr, Readarr, Bazarr, Jackett
 │   ├── media-servers/        # Plex, Jellyfin, Navidrome
 │   ├── downloads/            # NZBGet, qBittorrent, Transmission, Gluetun
 │   ├── books/                # Calibre, Calibre-Web, Kavita, etc.

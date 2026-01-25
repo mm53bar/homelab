@@ -4,6 +4,7 @@ This consolidated compose file contains all media management services that work 
 
 ## Services Included
 
+- **FlareSolverr** - Cloudflare bypass for protected indexers (port 8191)
 - **Prowlarr** - Centralized indexer manager (port 9696)
 - **Sonarr** - TV show management (port 8989)
 - **Radarr** - Movie management (port 7878)
@@ -21,6 +22,28 @@ All these services:
 - Have similar configuration (PUID, PGID, TZ)
 - Work as a cohesive media automation pipeline
 
+## Key Features
+
+### FlareSolverr Integration
+Helps Prowlarr bypass Cloudflare protection on indexers. No manual configuration needed - Prowlarr can detect and use it automatically at `http://arr-flaresolverr:8191`.
+
+### Environment Variables
+Flexible configuration using environment variables with sensible defaults:
+- `PUID` / `PGID` - User/group IDs (default: 1027/100)
+- `TZ` - Timezone (default: America/Edmonton)
+- `DOCKER_VOLUME_STORAGE` - Config storage path (default: /volume1/docker)
+- `MEDIA_STORAGE` - Media storage path (default: /volume1/data)
+- Port overrides available for all services
+
+See `.env.example` for all options.
+
+### Container Naming
+All containers use `arr-` prefix for easy identification:
+- `arr-prowlarr`, `arr-sonarr`, `arr-radarr`, etc.
+
+### Reverse Proxy Ready
+Commented Traefik labels included for easy reverse proxy setup. Simply uncomment and configure for HTTPS access via domain names.
+
 ## Separate Instances
 
 The following service has its own compose file:
@@ -33,9 +56,13 @@ The following service has its own compose file:
 ## Setup Order
 
 1. **Start arr-stack** (this file)
-2. Configure **Prowlarr** first - add indexers
-3. Configure **Sonarr/Radarr/Lidarr/Readarr** - link to Prowlarr and download clients
-4. Configure **Bazarr** - link to Sonarr/Radarr for subtitle automation
+2. **Configure FlareSolverr in Prowlarr** (Settings > Indexers > Add FlareSolverr):
+   - Tags: `flaresolverr`
+   - Host: `http://arr-flaresolverr:8191`
+   - Add the tag to indexers that need Cloudflare bypass
+3. Configure **Prowlarr** - add indexers
+4. Configure **Sonarr/Radarr/Lidarr/Readarr** - link to Prowlarr and download clients
+5. Configure **Bazarr** - link to Sonarr/Radarr for subtitle automation
 
 ## Network Configuration
 
@@ -90,3 +117,11 @@ Use Arcane's "Redeploy" button to pull latest images and restart all services.
 **Import failures**: Check volume paths are consistent across all services
 
 **Prowlarr not syncing**: Check API keys and connections in each *arr app
+
+**Cloudflare-protected indexers failing**: 
+1. Ensure FlareSolverr is running: `docker ps | grep arr-flaresolverr`
+2. Add FlareSolverr in Prowlarr (Settings > Indexers > FlareSolverr)
+3. Tag indexers with `flaresolverr` to enable bypass
+4. Check FlareSolverr logs: `docker logs arr-flaresolverr`
+
+**Environment variables not working**: Copy `.env.example` to `.env` and customize values
