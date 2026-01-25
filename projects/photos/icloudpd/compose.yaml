@@ -5,38 +5,38 @@ services:
     container_name: icloudpd-mike
     restart: always
     environment:
-      - TZ=America/Edmonton            
-      - user_id=1027
-      - group_id=100
-      - apple_id=mike@aream.ca
+      - TZ=${TZ:-America/Edmonton}
+      - user_id=${PUID:-1027}
+      - group_id=${PGID:-100}
+      - apple_id=${ICLOUDPD_MIKE_APPLE_ID:?ICLOUDPD_MIKE_APPLE_ID must be set}
       - authentication_type=2FA
-      - 'folder_structure={:%Y/%m}'
-      - notification_days=7
-      - synchronisation_interval=86400
-      - 'download_path=/icloud'
-      - skip_check=false
-      - auto_delete=true
+      - folder_structure=${FOLDER_STRUCTURE:-{:%Y/%m}}
+      - notification_days=${NOTIFICATION_DAYS:-7}
+      - synchronisation_interval=${SYNC_INTERVAL:-86400}
+      - download_path=${DOWNLOAD_PATH:-/icloud}
+      - skip_check=${SKIP_CHECK:-false}
+      - auto_delete=${AUTO_DELETE:-true}
     network_mode: host
     volumes:
-      - '/volume1/docker/icloudpd/mike_config:/config'
-      - '/volume1/photo/icloud/mike:/icloud'
+      - '${CONFIG_STORAGE:-/volume1/docker}/icloudpd/mike_config:/config'
+      - '${PHOTO_STORAGE:-/volume1/photo}/icloud/mike:/icloud'
   icloudpd-sheila:
     image: boredazfcuk/icloudpd:latest
     container_name: icloudpd-sheila
     restart: always
     environment:
-      - TZ=America/Edmonton            
-      - user_id=1027
-      - group_id=100
-      - apple_id=sheila@aream.ca
+      - TZ=${TZ:-America/Edmonton}
+      - user_id=${PUID:-1027}
+      - group_id=${PGID:-100}
+      - apple_id=${ICLOUDPD_SHEILA_APPLE_ID:?ICLOUDPD_SHEILA_APPLE_ID must be set}
       - authentication_type=2FA
-      - 'folder_structure={:%Y/%m}'
-      - notification_days=7
-      - synchronisation_interval=86400
-      - 'download_path=/icloud'
-      - skip_check=false
-      - auto_delete=true
+      - folder_structure=${FOLDER_STRUCTURE:-{:%Y/%m}}
+      - notification_days=${NOTIFICATION_DAYS:-7}
+      - synchronisation_interval=${SYNC_INTERVAL:-86400}
+      - download_path=${DOWNLOAD_PATH:-/icloud}
+      - skip_check=${SKIP_CHECK:-false}
+      - auto_delete=${AUTO_DELETE:-true}
     network_mode: host
     volumes:
-      - '/volume1/docker/icloudpd/sheila_config:/config'
-      - '/volume1/photo/icloud/sheila:/icloud'
+      - '${CONFIG_STORAGE:-/volume1/docker}/icloudpd/sheila_config:/config'
+      - '${PHOTO_STORAGE:-/volume1/photo}/icloud/sheila:/icloud'

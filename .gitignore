@@ -4,6 +4,7 @@
 # Environment files with secrets
 # Keep .env files out of Git for public repos
 **/.env
+**/.env.secrets
 !**/.env.example
 secrets.yaml
 secrets.yml

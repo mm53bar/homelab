@@ -4,24 +4,24 @@ services:
   immich-server:
     container_name: immich_server
     image: ghcr.io/immich-app/immich-server:release
-    user: "1027:937"
+    user: ${PUID:-1027}:${PGID:-100}
     devices:
       - /dev/dri:/dev/dri
     volumes:
-      - /volume1/data/media/immich:/usr/src/app/upload
-      - /volume1/photo/icloud/mike:/mnt/icloud_mike:ro
-      - /volume1/photo/icloud/sheila:/mnt/icloud_sheila:ro      
+      - ${MEDIA_STORAGE:-/volume1/data}/media/immich:/usr/src/app/upload
+      - ${PHOTO_STORAGE:-/volume1/photo}/icloud/mike:/mnt/icloud_mike:ro
+      - ${PHOTO_STORAGE:-/volume1/photo}/icloud/sheila:/mnt/icloud_sheila:ro      
       - /etc/localtime:/etc/localtime:ro
     environment:
       - UPLOAD_LOCATION=/usr/src/app/upload
-      - DB_PASSWORD=postgres
-      - DB_USERNAME=postgres
-      - DB_DATABASE_NAME=immich
-      - DB_HOSTNAME=database
-      - REDIS_HOSTNAME=redis
-      - IMMICH_MACHINE_LEARNING_URL=http://192.168.0.145:3003
+      - DB_PASSWORD=${IMMICH_DB_PASSWORD:?IMMICH_DB_PASSWORD must be set}
+      - DB_USERNAME=${DB_USERNAME:-postgres}
+      - DB_DATABASE_NAME=${DB_DATABASE_NAME:-immich}
+      - DB_HOSTNAME=${DB_HOSTNAME:-database}
+      - REDIS_HOSTNAME=${REDIS_HOSTNAME:-redis}
+      - IMMICH_MACHINE_LEARNING_URL=${IMMICH_ML_URL:-http://192.168.0.145:3003}
     ports:
-      - '2283:2283'
+      - '${IMMICH_PORT:-2283}:2283'
     depends_on:
       - redis
       - database
@@ -31,16 +31,16 @@ services:
     deploy:
       resources:
         limits:
-          memory: 1.5G
+          memory: ${IMMICH_MEMORY_LIMIT:-1.5G}
     healthcheck:
       disable: false
 
   redis:
     container_name: immich_redis
     image: docker.io/redis:6.2-alpine@sha256:905c4ee67b8e0aa955331960d2aa745781e6bd89afc44a8584bfd13bc890f0ae
-    user: "1027:100"
+    user: ${PUID:-1027}:${PGID:-100}
     volumes:
-      - /volume1/docker/immich/redis:/data
+      - ${CONFIG_STORAGE:-/volume1/docker}/immich/redis:/data
     command: redis-server --save 60 1 --loglevel warning
     healthcheck:
       test: redis-cli ping || exit 1
@@ -50,19 +50,19 @@ services:
     deploy:
       resources:
         limits:
-          memory: 256M
+          memory: ${REDIS_MEMORY_LIMIT:-256M}
 
   database:
     container_name: immich_postgres
     image: docker.io/tensorchord/pgvecto-rs:pg14-v0.2.0@sha256:90724186f0a3517cf6914295b5ab410db9ce23190a2d9d0b9dd6463e3fa298f0
-    user: "1027:100"
+    user: ${PUID:-1027}:${PGID:-100}
     environment:
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_USER: postgres
-      POSTGRES_DB: immich
+      POSTGRES_PASSWORD: ${IMMICH_POSTGRES_PASSWORD:?IMMICH_POSTGRES_PASSWORD must be set}
+      POSTGRES_USER: ${DB_USERNAME:-postgres}
+      POSTGRES_DB: ${DB_DATABASE_NAME:-immich}
       POSTGRES_INITDB_ARGS: '--data-checksums'
     volumes:
-      - /volume1/docker/immich/postgres:/var/lib/postgresql/data
+      - ${CONFIG_STORAGE:-/volume1/docker}/immich/postgres:/var/lib/postgresql/data
     healthcheck:
       test: >-
         pg_isready --dbname="$${POSTGRES_DB}" --username="$${POSTGRES_USER}" || exit 1;
@@ -87,7 +87,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: 768M
+          memory: ${DB_MEMORY_LIMIT:-768M}
         
 
 networks:
