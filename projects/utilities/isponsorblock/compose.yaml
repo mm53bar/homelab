@@ -5,4 +5,4 @@ services:
         restart: unless-stopped
         network_mode: host
         volumes:
-        - /volume1/docker/sponsorblock:/app/data #enter the same pathway as you used for your configurator in step 1
+        - /volume1/configs/sponsorblock:/app/data #enter the same pathway as you used for your configurator in step 1

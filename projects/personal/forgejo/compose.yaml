@@ -15,7 +15,7 @@ services:
     networks:
       - downloaders
     volumes:
-      - /volume1/docker/forgejo:/data    
+      - /volume1/configs/forgejo:/data    
       - /etc/TZ:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     ports:

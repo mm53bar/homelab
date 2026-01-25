@@ -4,26 +4,26 @@ This repository contains all Docker Compose configurations for my homelab servic
 
 ## Overview
 
-This homelab runs on a Synology NAS with Docker, managing 40+ services across various categories organized into 37 projects. The services were migrated from Portainer to Arcane for better Git-based management and automation.
+This homelab runs on a Synology NAS with Docker, managing essential services organized into 14 streamlined projects. The services were migrated from Portainer to Arcane for better Git-based management and automation.
 
 **Key Features**:
-- Consolidated arr-stack (Sonarr, Radarr, Prowlarr, FlareSolverr, etc.) in single compose file
+- Consolidated media-automation stack (complete media pipeline with VPN killswitch)
 - Secrets managed via .env files (not committed to Git)
 - Automatic sync from Git repository
-- Categorized by function for easy navigation
+- Streamlined: Only active services included
+- Clean volume paths: `/volume1/configs/` for app data
 
 ### Service Categories
 
-- **Media Management** (arr-stack): Consolidated compose file with FlareSolverr, Prowlarr, Sonarr, Radarr, Lidarr, Readarr, Bazarr, Jackett + separate Syncarr
-- **Media Servers**: Plex, Jellyfin, Navidrome, Tdarr
-- **Download Clients**: NZBGet, qBittorrent, Transmission, Gluetun (VPN)
-- **Books & Comics**: Calibre, Calibre-Web, LazyLibrarian, Mylar3, Kavita
-- **Dashboards**: Organizr, Heimdall, Homepage, Homer
-- **Home Automation**: Home Assistant, MQTT
+- **Media Automation**: Complete pipeline with Gluetun (VPN), qBittorrent, NZBGet, FlareSolverr, Prowlarr, Sonarr, Radarr, Lidarr, Readarr, Bazarr, Jackett
+- **Books**: Calibre-Web Automated ecosystem
+- **Dashboards**: Homer
 - **Personal Apps**: Paperless-NGX, Mealie, Wallabag, Forgejo
-- **Photos**: iCloudPD, PhotoStructure, Immich
-- **Database**: PostgreSQL, pgAdmin
-- **Utilities**: Omada Controller, YouTube-DL, iSponsorBlockTV, TRMNL, Pinchflat
+- **Photos**: iCloudPD, Immich
+- **Database**: PostgreSQL + pgAdmin
+- **Utilities**: iSponsorBlockTV, TRMNL, Pinchflat
+
+**Note**: Plex, Home Assistant, and other services run on separate machines (see NPM proxy configuration)
 
 ## Quick Start
 
@@ -71,7 +71,7 @@ docker run -d \
    - Click the arrow next to "Create Project" → select `From Git Repo`
    - Click `Import Multiple` 
    - Use the `arcane-sync.json` file from this repository
-   - This will import all 37 projects at once
+   - This will import all 14 projects at once
 
 3. **Enable Auto-Sync** (Optional):
    - Each project can be configured to automatically poll for changes
@@ -97,18 +97,14 @@ If you prefer to import projects individually:
 ```
 homelab/
 ├── projects/
-│   ├── media-management/     # arr-stack (consolidated) + SD variants
-│   │   └── arr-stack/        # FlareSolverr, Prowlarr, Sonarr, Radarr, Lidarr, Readarr, Bazarr, Jackett
-│   ├── media-servers/        # Plex, Jellyfin, Navidrome
-│   ├── downloads/            # NZBGet, qBittorrent, Transmission, Gluetun
-│   ├── books/                # Calibre, Calibre-Web, Kavita, etc.
-│   ├── dashboards/           # Organizr, Heimdall, Homepage
-│   ├── home-automation/      # Home Assistant, MQTT
+│   ├── media-automation/     # Complete media pipeline (Gluetun VPN, qBittorrent, NZBGet, arr services)
+│   ├── books/                # Calibre-Web Automated ecosystem
+│   ├── dashboards/           # Homer
 │   ├── personal/             # Paperless, Mealie, Wallabag, Forgejo
-│   ├── photos/               # iCloudPD, PhotoStructure, Immich
-│   ├── database/             # PostgreSQL, pgAdmin
-│   └── utilities/            # Omada, Syncarr, YouTube-DL, etc.
-├── arcane-sync.json          # Bulk import configuration (37 projects)
+│   ├── photos/               # iCloudPD, Immich
+│   ├── database/             # PostgreSQL + pgAdmin
+│   └── utilities/            # iSponsorBlock, TRMNL, Pinchflat
+├── arcane-sync.json          # Bulk import configuration (14 projects)
 ├── SECRETS.md                # Secrets management guide
 ├── MIGRATION.md              # Migration notes from Portainer
 └── README.md                 # This file
@@ -162,7 +158,7 @@ See **[SECRETS.md](SECRETS.md)** for complete secrets management guide.
 
 ### Volume Paths
 All services use Synology volume paths:
-- Docker configs: `/volume1/docker/<service>/`
+- App configs: `/volume1/configs/<service>/`
 - Media: `/volume1/data/`
 - Shared data paths maintained for compatibility
 
@@ -184,7 +180,7 @@ Some services use Docker networks:
 
 If you're running Arcane on a different machine than the services, you may need to adjust volume paths. The current setup assumes:
 - Arcane runs on the same Synology NAS as the containers
-- Access to `/volume1/docker/` and `/volume1/data/` paths
+- Access to `/volume1/configs/` and `/volume1/data/` paths
 
 ### Secrets & Sensitive Data
 

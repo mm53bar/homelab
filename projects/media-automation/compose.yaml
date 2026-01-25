@@ -1,0 +1,206 @@
+services:
+  # VPN killswitch - All torrent traffic routes through here
+  gluetun:
+    image: qmcgaw/gluetun:latest
+    container_name: media-gluetun
+    restart: unless-stopped
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    ports:
+      - ${GLUETUN_PROXY_PORT:-8888}:8888/tcp # HTTP proxy
+      - ${GLUETUN_SHADOWSOCKS_PORT:-8388}:8388/tcp # Shadowsocks
+      - ${GLUETUN_SHADOWSOCKS_UDP_PORT:-8388}:8388/udp # Shadowsocks
+      - ${QBITTORRENT_PORT:-8200}:8200 # qBittorrent WebUI (exposed through Gluetun)
+      - ${QBITTORRENT_PORT_TCP:-6881}:6881/tcp # qBittorrent
+      - ${QBITTORRENT_PORT_UDP:-6881}:6881/udp # qBittorrent
+    volumes:
+      - ${CONFIG_STORAGE:-/volume1/configs}/gluetun:/gluetun
+      - ${CONFIG_STORAGE:-/volume1/configs}/gluetun/getflix/Canada-Toronto_TCP1194_SMART.ovpn:/gluetun/custom.conf:ro
+    environment:
+      - PUID=${PUID:-1027}
+      - PGID=${PGID:-100}
+      - TZ=${TZ:-America/Edmonton}
+      # VPN Configuration - see https://github.com/qdm12/gluetun-wiki/tree/main/setup/providers
+      - VPN_SERVICE_PROVIDER=${VPN_SERVICE_PROVIDER:-custom}
+      - VPN_TYPE=${VPN_TYPE:-openvpn}
+      # OpenVPN settings
+      - OPENVPN_CUSTOM_CONFIG=${OPENVPN_CUSTOM_CONFIG:-/gluetun/custom.conf}
+      - OPENVPN_USER=${OPENVPN_USER:?OPENVPN_USER must be set}
+      - OPENVPN_PASSWORD=${OPENVPN_PASSWORD:?OPENVPN_PASSWORD must be set}
+      # Server list updater (leave empty to disable)
+      - UPDATER_PERIOD=
+
+  # Torrent client - Routes through Gluetun VPN (killswitch enabled)
+  qbittorrent:
+    image: lscr.io/linuxserver/qbittorrent:latest
+    container_name: media-qbittorrent
+    restart: unless-stopped
+    network_mode: service:gluetun # VPN killswitch - routes ALL traffic through Gluetun
+    depends_on:
+      - gluetun
+    volumes:
+      - ${CONFIG_STORAGE:-/volume1/configs}/qbittorrent:/config
+      - ${MEDIA_STORAGE:-/volume1/data}:/data
+    environment:
+      - PUID=${PUID:-1027}
+      - PGID=${PGID:-100}
+      - TZ=${TZ:-America/Edmonton}
+      - WEBUI_PORT=8200
+
+  # Usenet client
+  nzbget:
+    image: lscr.io/linuxserver/nzbget:latest
+    container_name: media-nzbget
+    restart: unless-stopped
+    expose:
+      - 6789/tcp
+    ports:
+      - ${NZBGET_PORT:-5678}:6789
+    volumes:
+      - ${CONFIG_STORAGE:-/volume1/configs}/nzbget:/config
+      - ${MEDIA_STORAGE:-/volume1/data}/usenet:/data/usenet
+    environment:
+      - PUID=${PUID:-1027}
+      - PGID=${PGID:-100}
+      - TZ=${TZ:-America/Edmonton}
+
+  # Cloudflare bypass - Helps Prowlarr access protected indexers
+  flaresolverr:
+    image: flaresolverr/flaresolverr:latest
+    container_name: media-flaresolverr
+    restart: unless-stopped
+    expose:
+      - 8191/tcp
+    environment:
+      - LOG_LEVEL=${LOG_LEVEL:-info}
+      - LOG_HTML=false
+      - CAPTCHA_SOLVER=none
+      - TZ=${TZ:-America/Edmonton}
+
+  # Indexer manager - Configure this first
+  prowlarr:
+    image: ghcr.io/linuxserver/prowlarr:develop
+    container_name: media-prowlarr
+    restart: unless-stopped
+    expose:
+      - 9696/tcp
+    ports:
+      - ${PROWLARR_PORT:-9696}:9696
+    volumes:
+      - ${CONFIG_STORAGE:-/volume1/configs}/prowlarr:/config
+    environment:
+      - PUID=${PUID:-1027}
+      - PGID=${PGID:-100}
+      - TZ=${TZ:-America/Edmonton}
+    depends_on:
+      - flaresolverr
+
+  # TV shows management
+  sonarr:
+    image: lscr.io/linuxserver/sonarr:latest
+    container_name: media-sonarr
+    restart: unless-stopped
+    expose:
+      - 8989/tcp
+    ports:
+      - ${SONARR_PORT:-8989}:8989
+    volumes:
+      - ${CONFIG_STORAGE:-/volume1/configs}/sonarr:/config
+      - ${MEDIA_STORAGE:-/volume1/data}:/data
+    environment:
+      - PUID=${PUID:-1027}
+      - PGID=${PGID:-100}
+      - TZ=${TZ:-America/Edmonton}
+
+  # Movies management
+  radarr:
+    image: lscr.io/linuxserver/radarr:latest
+    container_name: media-radarr
+    restart: unless-stopped
+    expose:
+      - 7878/tcp
+    ports:
+      - ${RADARR_PORT:-7878}:7878
+    volumes:
+      - ${CONFIG_STORAGE:-/volume1/configs}/radarr:/config
+      - ${MEDIA_STORAGE:-/volume1/data}:/data
+    environment:
+      - PUID=${PUID:-1027}
+      - PGID=${PGID:-100}
+      - TZ=${TZ:-America/Edmonton}
+
+  # Music management
+  lidarr:
+    image: lscr.io/linuxserver/lidarr:latest
+    container_name: media-lidarr
+    restart: unless-stopped
+    expose:
+      - 8686/tcp
+    ports:
+      - ${LIDARR_PORT:-8686}:8686
+    volumes:
+      - ${CONFIG_STORAGE:-/volume1/configs}/lidarr:/config
+      - ${MEDIA_STORAGE:-/volume1/data}:/data
+    environment:
+      - PUID=${PUID:-1027}
+      - PGID=${PGID:-100}
+      - TZ=${TZ:-America/Edmonton}
+
+  # Books/audiobooks management
+  readarr:
+    image: cr.hotio.dev/hotio/readarr:nightly
+    container_name: media-readarr
+    restart: unless-stopped
+    expose:
+      - 8787/tcp
+    ports:
+      - ${READARR_PORT:-8787}:8787
+    volumes:
+      - ${CONFIG_STORAGE:-/volume1/configs}/readarr:/config
+      - ${MEDIA_STORAGE:-/volume1/data}:/data
+    environment:
+      - PUID=${PUID:-1027}
+      - PGID=${PGID:-100}
+      - TZ=${TZ:-America/Edmonton}
+
+  # Subtitle management
+  bazarr:
+    image: lscr.io/linuxserver/bazarr:latest
+    container_name: media-bazarr
+    restart: unless-stopped
+    expose:
+      - 6767/tcp
+    ports:
+      - ${BAZARR_PORT:-6767}:6767
+    volumes:
+      - ${CONFIG_STORAGE:-/volume1/configs}/bazaar:/config
+      - ${MEDIA_STORAGE:-/volume1/data}:/data
+    environment:
+      - PUID=${PUID:-1027}
+      - PGID=${PGID:-100}
+      - TZ=${TZ:-America/Edmonton}
+
+  # Torrent indexer proxy (Legacy - consider migrating to Prowlarr)
+  jackett:
+    image: lscr.io/linuxserver/jackett:latest
+    container_name: media-jackett
+    restart: unless-stopped
+    expose:
+      - 9117/tcp
+    ports:
+      - ${JACKETT_PORT:-9117}:9117
+    volumes:
+      - ${CONFIG_STORAGE:-/volume1/configs}/jackett:/config
+      - ${MEDIA_STORAGE:-/volume1/data}:/data
+    environment:
+      - PUID=${PUID:-1027}
+      - PGID=${PGID:-100}
+      - TZ=${TZ:-America/Edmonton}
+      - AUTO_UPDATE=true
+
+networks:
+  default:
+    name: media-network
+    external: true

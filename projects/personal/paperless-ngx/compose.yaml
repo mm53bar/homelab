@@ -34,7 +34,7 @@ services:
     networks:
       - downloaders    
     volumes:
-      - /volume1/docker/paperless-ngx/redis:/data
+      - /volume1/configs/paperless-ngx/redis:/data
 
   webserver:
     image: ghcr.io/paperless-ngx/paperless-ngx:latest
@@ -52,8 +52,8 @@ services:
       timeout: 10s
       retries: 5
     volumes:
-      - /volume1/docker/paperless-ngx/data:/usr/src/paperless/data
-      - /volume1/docker/paperless-ngx/export:/usr/src/paperless/export
+      - /volume1/configs/paperless-ngx/data:/usr/src/paperless/data
+      - /volume1/configs/paperless-ngx/export:/usr/src/paperless/export
       - /volume1/data/papers:/usr/src/paperless/media      
       - /volume1/data/import/papers:/usr/src/paperless/consume
     environment:

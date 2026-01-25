@@ -18,7 +18,7 @@ services:
       - auto_delete=true
     network_mode: host
     volumes:
-      - '/volume1/docker/icloudpd/mike_config:/config'
+      - '/volume1/configs/icloudpd/mike_config:/config'
       - '/volume1/photo/icloud/mike:/icloud'
   icloudpd-sheila:
     image: boredazfcuk/icloudpd:latest
@@ -38,5 +38,5 @@ services:
       - auto_delete=true
     network_mode: host
     volumes:
-      - '/volume1/docker/icloudpd/sheila_config:/config'
+      - '/volume1/configs/icloudpd/sheila_config:/config'
       - '/volume1/photo/icloud/sheila:/icloud'
