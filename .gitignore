@@ -64,3 +64,6 @@ compose.override.yaml
 # Documentation builds
 docs/_build/
 site/
+
+# Old compose configurations (contains secrets)
+compose/
