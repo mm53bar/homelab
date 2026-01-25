@@ -150,7 +150,7 @@ services:
 
   # Books/audiobooks management
   readarr:
-    image: cr.hotio.dev/hotio/readarr:nightly
+    image: lscr.io/linuxserver/readarr:develop
     container_name: media-readarr
     restart: unless-stopped
     expose:
