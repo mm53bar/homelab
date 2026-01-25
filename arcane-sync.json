@@ -180,40 +180,10 @@
   }
 ,
   {
-    "syncName": "bazarr",
+    "syncName": "arr-stack",
     "gitRepo": "homelab",
     "branch": "main",
-    "dockerComposePath": "projects/media-management/bazarr/compose.yaml",
-    "autoSync": true,
-    "syncInterval": 5,
-    "enabled": true
-  }
-,
-  {
-    "syncName": "jackett",
-    "gitRepo": "homelab",
-    "branch": "main",
-    "dockerComposePath": "projects/media-management/jackett/compose.yaml",
-    "autoSync": true,
-    "syncInterval": 5,
-    "enabled": true
-  }
-,
-  {
-    "syncName": "lidarr",
-    "gitRepo": "homelab",
-    "branch": "main",
-    "dockerComposePath": "projects/media-management/lidarr/compose.yaml",
-    "autoSync": true,
-    "syncInterval": 5,
-    "enabled": true
-  }
-,
-  {
-    "syncName": "prowlarr",
-    "gitRepo": "homelab",
-    "branch": "main",
-    "dockerComposePath": "projects/media-management/prowlarr/compose.yaml",
+    "dockerComposePath": "projects/media-management/arr-stack/compose.yaml",
     "autoSync": true,
     "syncInterval": 5,
     "enabled": true
@@ -230,40 +200,10 @@
   }
 ,
   {
-    "syncName": "radarr",
-    "gitRepo": "homelab",
-    "branch": "main",
-    "dockerComposePath": "projects/media-management/radarr/compose.yaml",
-    "autoSync": true,
-    "syncInterval": 5,
-    "enabled": true
-  }
-,
-  {
-    "syncName": "readarr",
-    "gitRepo": "homelab",
-    "branch": "main",
-    "dockerComposePath": "projects/media-management/readarr/compose.yaml",
-    "autoSync": true,
-    "syncInterval": 5,
-    "enabled": true
-  }
-,
-  {
     "syncName": "sonarr-sd",
     "gitRepo": "homelab",
     "branch": "main",
     "dockerComposePath": "projects/media-management/sonarr-sd/compose.yaml",
-    "autoSync": true,
-    "syncInterval": 5,
-    "enabled": true
-  }
-,
-  {
-    "syncName": "sonarr",
-    "gitRepo": "homelab",
-    "branch": "main",
-    "dockerComposePath": "projects/media-management/sonarr/compose.yaml",
     "autoSync": true,
     "syncInterval": 5,
     "enabled": true

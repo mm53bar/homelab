@@ -4,12 +4,14 @@ services:
     image: postgres
     mem_limit: 256m
     cpu_shares: 768
+    env_file:
+      - .env
     healthcheck:
-      test: ["CMD", "pg_isready", "-q", "-d", "backson_DB", "-U", "root"]
+      test: ["CMD", "pg_isready", "-q", "-d", "${POSTGRES_DB:-backson_DB}", "-U", "${POSTGRES_USER:-root}"]
     environment:
-      POSTGRES_USER: root
-      POSTGRES_PASSWORD: backsonroot
-      POSTGRES_DB: backson_DB
+      POSTGRES_USER: ${POSTGRES_USER:-root}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB:-backson_DB}
     volumes:
       - /volume1/docker/postgresql:/var/lib/postgresql/data:rw
     ports:
@@ -21,11 +23,13 @@ services:
     image: dpage/pgadmin4:latest
     mem_limit: 256m
     cpu_shares: 768
+    env_file:
+      - .env
     healthcheck:
       test: wget --no-verbose --tries=1 --spider http://localhost:5050
     environment:
-      PGADMIN_DEFAULT_EMAIL: mike@aream.ca
-      PGADMIN_DEFAULT_PASSWORD: backson
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
       PGADMIN_LISTEN_PORT: 5050
     ports:
       - 2660:5050

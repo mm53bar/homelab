@@ -1,10 +1,12 @@
 # Arcane data directory (if cloned locally)
 /app/data/
 
-# Environment files with secrets (optional - decide based on your setup)
-# Uncomment these if you want to keep secrets out of Git
-# **/.env
-# !.env.example
+# Environment files with secrets
+# Keep .env files out of Git for public repos
+**/.env
+!**/.env.example
+secrets.yaml
+secrets.yml
 
 # Editor files
 .vscode/
