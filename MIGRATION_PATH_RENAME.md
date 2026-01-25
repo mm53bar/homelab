@@ -34,17 +34,33 @@ Complete media pipeline in one compose file:
 docker stop $(docker ps -q)
 ```
 
-### Step 2: Ensure /volume1/docker/ is Ready
+### Step 2: Clean Up and Rename Configs
 
-**No action needed** - Synology Container Manager automatically creates `/volume1/docker/` as a shared folder.
+**IMPORTANT**: Move old media service configs to new names to preserve settings!
 
-**Verify it exists**:
 ```bash
+# SSH into your NAS
 ssh admin@192.168.0.56
-ls -la /volume1/docker/
+
+# Step 1: Move media automation configs (PRESERVES SETTINGS)
+mv /volume1/docker/gluetun/ /volume1/docker/media-gluetun/
+mv /volume1/docker/qbittorrent/ /volume1/docker/media-qbittorrent/
+mv /volume1/docker/nzbget/ /volume1/docker/media-nzbget/
+mv /volume1/docker/prowlarr/ /volume1/docker/media-prowlarr/
+mv /volume1/docker/jackett/ /volume1/docker/media-jackett/
+mv /volume1/docker/sonarr/ /volume1/docker/media-sonarr/
+mv /volume1/docker/radarr/ /volume1/docker/media-radarr/
+mv /volume1/docker/lidarr/ /volume1/docker/media-lidarr/
+mv /volume1/docker/readarr/ /volume1/docker/media-readarr/
+mv /volume1/docker/bazarr/ /volume1/docker/media-bazarr/
+
+# Step 2: Delete unused configs (see CLEANUP_GUIDE.md for full list)
+rm -rf /volume1/docker/arr-stack/
+rm -rf /volume1/docker/transmission/
+# ... etc (see CLEANUP_GUIDE.md)
 ```
 
-You should see all your service directories (sonarr, radarr, qbittorrent, etc.)
+**See `CLEANUP_GUIDE.md` for complete cleanup commands.**
 
 ### Step 3: Update Arcane Installation
 
@@ -139,7 +155,9 @@ The media-automation stack requires VPN credentials:
    ```
 4. Click "Save"
 
-### Step 8: Deploy media-automation
+### Step 7: Deploy media-automation
+
+**Important**: Only deploy after moving the configs (Step 2)!
 
 1. Click "Up" on the media-automation project
 2. Wait for all containers to start
@@ -150,36 +168,64 @@ The media-automation stack requires VPN credentials:
 docker ps | grep media-
 ```
 
-You should see:
-- media-gluetun
-- media-qbittorrent
-- media-nzbget
+You should see 11 containers:
+- media-gluetun (using moved config)
+- media-qbittorrent (using moved config)
+- media-nzbget (using moved config)
 - media-flaresolverr
-- media-prowlarr
-- media-sonarr
-- media-radarr
-- media-lidarr
-- media-readarr
-- media-bazarr
-- media-jackett
+- media-prowlarr (using moved config)
+- media-jackett (using moved config)
+- media-sonarr (using moved config)
+- media-radarr (using moved config)
+- media-lidarr (using moved config)
+- media-readarr (using moved config)
+- media-bazarr (using moved config)
 
-### Step 9: Update Download Client Settings
+### Step 8: Verify Settings Were Preserved
+
+Access each arr service and verify your settings are intact:
+
+**Check Sonarr** (http://192.168.0.56:8989):
+- Series library intact?
+- Quality profiles still configured?
+- Root folders correct?
+
+**Check Radarr** (http://192.168.0.56:7878):
+- Movie library intact?
+- Quality profiles still configured?
+
+**Check Prowlarr** (http://192.168.0.56:9696):
+- Indexers still configured?
+- API keys still work?
+
+**Check qBittorrent** (http://192.168.0.56:8200):
+- Categories still set up?
+- Settings preserved?
+- Can you log in?
+
+If any settings are missing, stop containers and check the moved directories.
+
+### Step 9: Update Download Client Hostnames
 
 In each arr service, update download client settings to use new container names:
 
 **qBittorrent**:
 - Host: `media-gluetun` (was `gluetun`)
 - Port: 8200
-- Category: Set per service
+- Username/password: (unchanged)
+- Category: (unchanged)
 
 **NZBGet**:
 - Host: `media-nzbget` (was `nzbget`)
 - Port: 6789
-- Category: Set per service
+- Username/password: (unchanged)
+- Category: (unchanged)
+
+**Everything else stays the same** - only the hostname changes!
 
 ### Step 10: Deploy Other Projects
 
-Start the remaining projects in Arcane:
+Start the remaining 13 projects in Arcane:
 1. Go through each project
 2. Click "Up" to start
 3. Verify services are accessible
