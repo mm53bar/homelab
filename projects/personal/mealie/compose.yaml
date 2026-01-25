@@ -10,7 +10,7 @@ services:
         limits:
           memory: 1000M
     volumes:
-      - /volume1/configs/mealie:/app/data/
+      - /volume1/docker/mealie:/app/data/
     environment:
       - ALLOW_SIGNUP=true
       - PUID=1027

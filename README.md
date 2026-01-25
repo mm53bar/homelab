@@ -11,7 +11,7 @@ This homelab runs on a Synology NAS with Docker, managing essential services org
 - Secrets managed via .env files (not committed to Git)
 - Automatic sync from Git repository
 - Streamlined: Only active services included
-- Clean volume paths: `/volume1/configs/` for app data
+- Standard Synology paths: `/volume1/docker/` for app configs
 
 ### Service Categories
 
@@ -35,7 +35,7 @@ This homelab runs on a Synology NAS with Docker, managing essential services org
 
 ### Arcane Installation
 
-Arcane is installed and running on `http://192.168.0.56:3552`.
+Arcane is installed and running on `https://arcane.backson.boo` (via Nginx Proxy Manager).
 
 **Installation command** (for reference - contains sensitive keys):
 ```bash
@@ -46,13 +46,17 @@ docker run -d \
   -v /var/run/docker.sock:/var/run/docker.sock \
   -v /volume1/docker/arcane/data:/app/data \
   -v /volume1/docker/arcane/projects:/app/data/projects \
-  -e APP_URL='http://192.168.0.56:3552' \
+  -e APP_URL='https://arcane.backson.boo' \
   -e PUID='1027' \
   -e PGID='100' \
   -e ENCRYPTION_KEY='<your_encryption_key>' \
   -e JWT_SECRET='<your_jwt_secret>' \
   ghcr.io/getarcaneapp/arcane:latest
 ```
+
+**Access Methods**:
+- Primary: `https://arcane.backson.boo` (via NPM with SSL)
+- Fallback: `http://192.168.0.56:3552` (direct access)
 
 > **Note**: Encryption keys are stored securely outside this repo. See SECRETS.md for details.
 
@@ -158,7 +162,7 @@ See **[SECRETS.md](SECRETS.md)** for complete secrets management guide.
 
 ### Volume Paths
 All services use Synology volume paths:
-- App configs: `/volume1/configs/<service>/`
+- App configs: `/volume1/docker/<service>/` (Synology Container Manager default)
 - Media: `/volume1/data/`
 - Shared data paths maintained for compatibility
 
@@ -180,7 +184,7 @@ Some services use Docker networks:
 
 If you're running Arcane on a different machine than the services, you may need to adjust volume paths. The current setup assumes:
 - Arcane runs on the same Synology NAS as the containers
-- Access to `/volume1/configs/` and `/volume1/data/` paths
+- Access to `/volume1/docker/` and `/volume1/data/` paths
 
 ### Secrets & Sensitive Data
 

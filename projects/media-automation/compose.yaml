@@ -16,8 +16,8 @@ services:
       - ${QBITTORRENT_PORT_TCP:-6881}:6881/tcp # qBittorrent
       - ${QBITTORRENT_PORT_UDP:-6881}:6881/udp # qBittorrent
     volumes:
-      - ${CONFIG_STORAGE:-/volume1/configs}/gluetun:/gluetun
-      - ${CONFIG_STORAGE:-/volume1/configs}/gluetun/getflix/Canada-Toronto_TCP1194_SMART.ovpn:/gluetun/custom.conf:ro
+      - ${CONFIG_STORAGE:-/volume1/docker}/gluetun:/gluetun
+      - ${CONFIG_STORAGE:-/volume1/docker}/gluetun/getflix/Canada-Toronto_TCP1194_SMART.ovpn:/gluetun/custom.conf:ro
     environment:
       - PUID=${PUID:-1027}
       - PGID=${PGID:-100}
@@ -41,7 +41,7 @@ services:
     depends_on:
       - gluetun
     volumes:
-      - ${CONFIG_STORAGE:-/volume1/configs}/qbittorrent:/config
+      - ${CONFIG_STORAGE:-/volume1/docker}/qbittorrent:/config
       - ${MEDIA_STORAGE:-/volume1/data}:/data
     environment:
       - PUID=${PUID:-1027}
@@ -59,7 +59,7 @@ services:
     ports:
       - ${NZBGET_PORT:-5678}:6789
     volumes:
-      - ${CONFIG_STORAGE:-/volume1/configs}/nzbget:/config
+      - ${CONFIG_STORAGE:-/volume1/docker}/nzbget:/config
       - ${MEDIA_STORAGE:-/volume1/data}/usenet:/data/usenet
     environment:
       - PUID=${PUID:-1027}
@@ -89,7 +89,7 @@ services:
     ports:
       - ${PROWLARR_PORT:-9696}:9696
     volumes:
-      - ${CONFIG_STORAGE:-/volume1/configs}/prowlarr:/config
+      - ${CONFIG_STORAGE:-/volume1/docker}/prowlarr:/config
     environment:
       - PUID=${PUID:-1027}
       - PGID=${PGID:-100}
@@ -107,7 +107,7 @@ services:
     ports:
       - ${SONARR_PORT:-8989}:8989
     volumes:
-      - ${CONFIG_STORAGE:-/volume1/configs}/sonarr:/config
+      - ${CONFIG_STORAGE:-/volume1/docker}/sonarr:/config
       - ${MEDIA_STORAGE:-/volume1/data}:/data
     environment:
       - PUID=${PUID:-1027}
@@ -124,7 +124,7 @@ services:
     ports:
       - ${RADARR_PORT:-7878}:7878
     volumes:
-      - ${CONFIG_STORAGE:-/volume1/configs}/radarr:/config
+      - ${CONFIG_STORAGE:-/volume1/docker}/radarr:/config
       - ${MEDIA_STORAGE:-/volume1/data}:/data
     environment:
       - PUID=${PUID:-1027}
@@ -141,7 +141,7 @@ services:
     ports:
       - ${LIDARR_PORT:-8686}:8686
     volumes:
-      - ${CONFIG_STORAGE:-/volume1/configs}/lidarr:/config
+      - ${CONFIG_STORAGE:-/volume1/docker}/lidarr:/config
       - ${MEDIA_STORAGE:-/volume1/data}:/data
     environment:
       - PUID=${PUID:-1027}
@@ -158,7 +158,7 @@ services:
     ports:
       - ${READARR_PORT:-8787}:8787
     volumes:
-      - ${CONFIG_STORAGE:-/volume1/configs}/readarr:/config
+      - ${CONFIG_STORAGE:-/volume1/docker}/readarr:/config
       - ${MEDIA_STORAGE:-/volume1/data}:/data
     environment:
       - PUID=${PUID:-1027}
@@ -175,7 +175,7 @@ services:
     ports:
       - ${BAZARR_PORT:-6767}:6767
     volumes:
-      - ${CONFIG_STORAGE:-/volume1/configs}/bazaar:/config
+      - ${CONFIG_STORAGE:-/volume1/docker}/bazaar:/config
       - ${MEDIA_STORAGE:-/volume1/data}:/data
     environment:
       - PUID=${PUID:-1027}
@@ -192,7 +192,7 @@ services:
     ports:
       - ${JACKETT_PORT:-9117}:9117
     volumes:
-      - ${CONFIG_STORAGE:-/volume1/configs}/jackett:/config
+      - ${CONFIG_STORAGE:-/volume1/docker}/jackett:/config
       - ${MEDIA_STORAGE:-/volume1/data}:/data
     environment:
       - PUID=${PUID:-1027}

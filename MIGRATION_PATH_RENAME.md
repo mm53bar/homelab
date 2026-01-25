@@ -1,14 +1,13 @@
-# Migration Guide: Path Rename & Consolidation
+# Migration Guide: Project Consolidation
 
 This guide covers the major changes made to reorganize and streamline the homelab setup.
 
 ## Overview of Changes
 
-### 1. Volume Path Rename
-**Old**: `/volume1/docker/<service>/`  
-**New**: `/volume1/configs/<service>/`
+### 1. Synology Container Manager Setup
+**Important**: Synology Container Manager automatically creates a `/volume1/docker/` shared folder. This is a reserved directory name and cannot be renamed.
 
-More intuitive naming - "configs" clearly indicates application configuration storage.
+All application configs are stored in: `/volume1/docker/<service>/`
 
 ### 2. Project Consolidation
 **Removed**: 23 inactive projects  
@@ -35,24 +34,21 @@ Complete media pipeline in one compose file:
 docker stop $(docker ps -q)
 ```
 
-### Step 2: Rename Directory on NAS
+### Step 2: Ensure /volume1/docker/ is Ready
 
-**SSH to your Synology**:
+**No action needed** - Synology Container Manager automatically creates `/volume1/docker/` as a shared folder.
+
+**Verify it exists**:
 ```bash
 ssh admin@192.168.0.56
-sudo mv /volume1/docker /volume1/configs
-```
-
-**Verify**:
-```bash
-ls -la /volume1/configs/
+ls -la /volume1/docker/
 ```
 
 You should see all your service directories (sonarr, radarr, qbittorrent, etc.)
 
-### Step 3: Update Arcane Installation (Optional)
+### Step 3: Update Arcane Installation
 
-If you want Arcane's own data to use the new path:
+Update Arcane to use the domain URL for SSL:
 
 ```bash
 docker stop arcane
@@ -63,17 +59,15 @@ docker run -d \
   --restart unless-stopped \
   -p 3552:3552 \
   -v /var/run/docker.sock:/var/run/docker.sock \
-  -v /volume1/configs/arcane/data:/app/data \
-  -v /volume1/configs/arcane/projects:/app/data/projects \
-  -e APP_URL='http://192.168.0.56:3552' \
+  -v /volume1/docker/arcane/data:/app/data \
+  -v /volume1/docker/arcane/projects:/app/data/projects \
+  -e APP_URL='https://arcane.backson.boo' \
   -e PUID='1027' \
   -e PGID='100' \
   -e ENCRYPTION_KEY='<your_encryption_key>' \
   -e JWT_SECRET='<your_jwt_secret>' \
   ghcr.io/getarcaneapp/arcane:latest
 ```
-
-> Note: You may need to move Arcane's data too: `mv /volume1/docker/arcane /volume1/configs/arcane`
 
 ### Step 4: Pull Updated Repository
 
@@ -222,15 +216,12 @@ No NPM changes needed for these!
 
 **Issue**: Containers exit immediately or can't find databases
 
-**Fix**: Verify the directory rename worked:
+**Fix**: Verify the directory structure:
 ```bash
-ls -la /volume1/configs/<service>/
+ls -la /volume1/docker/<service>/
 ```
 
-If files are missing, you may need to:
-```bash
-sudo mv /volume1/docker/<service> /volume1/configs/<service>
-```
+All service configs should be in `/volume1/docker/` (Synology Container Manager's default location).
 
 ### qBittorrent not accessible
 
@@ -255,7 +246,7 @@ sudo mv /volume1/docker/<service> /volume1/configs/<service>
 
 **Check**:
 1. Verify VPN credentials in .env
-2. Check VPN config file exists: `/volume1/configs/gluetun/getflix/Canada-Toronto_TCP1194_SMART.ovpn`
+2. Check VPN config file exists: `/volume1/docker/gluetun/getflix/Canada-Toronto_TCP1194_SMART.ovpn`
 3. Check logs: `docker logs media-gluetun`
 
 ### Arcane can't find compose files
@@ -272,23 +263,22 @@ sudo mv /volume1/docker/<service> /volume1/configs/<service>
 If something goes wrong:
 
 1. **Stop all containers**
-2. **Rename directory back**:
-   ```bash
-   sudo mv /volume1/configs /volume1/docker
-   ```
-3. **Revert Git repository**:
+2. **Revert Git repository**:
    ```bash
    git checkout <previous-commit-hash>
    ```
-4. **Restore old Arcane project configuration from backup**
+3. **Restore old Arcane project configuration from backup**
+
+Note: No directory rename needed - `/volume1/docker/` is the standard Synology location.
 
 ## Benefits After Migration
 
 ✅ **Cleaner structure**: Only 14 active projects vs 37  
-✅ **Better naming**: `/volume1/configs/` more intuitive  
+✅ **Standard paths**: `/volume1/docker/` (Synology default)  
 ✅ **Consolidated pipeline**: One media-automation stack  
 ✅ **VPN killswitch**: qBittorrent protected by Gluetun  
 ✅ **Environment variables**: Flexible configuration  
+✅ **SSL access**: Arcane via `https://arcane.backson.boo`  
 ✅ **No Traefik clutter**: Clean compose files for NPM setup  
 
 ## Questions?

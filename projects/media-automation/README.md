@@ -67,7 +67,7 @@ All containers use `media-` prefix for easy identification:
    ```
 
 2. **Ensure VPN config file exists**:
-   - File: `/volume1/configs/gluetun/getflix/Canada-Toronto_TCP1194_SMART.ovpn`
+   - File: `/volume1/docker/gluetun/getflix/Canada-Toronto_TCP1194_SMART.ovpn`
    - Or update path in compose.yaml
 
 3. **Create media-network** (if it doesn't exist):
@@ -122,7 +122,7 @@ All services use the `media-network` Docker network. This allows them to communi
 
 ## Configuration Paths
 
-Each service stores its config in `/volume1/configs/<service>/`
+Each service stores its config in `/volume1/docker/<service>/`
 
 ## Access Services
 

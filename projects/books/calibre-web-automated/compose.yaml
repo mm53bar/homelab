@@ -9,7 +9,7 @@ services:
       - TZ=America/Edmonton
       - DOCKER_MODS=lscr.io/linuxserver/mods:universal-calibre-v7.16.0
     volumes:
-      - /volume1/configs/calibre-web:/config
+      - /volume1/docker/calibre-web:/config
       - /volume1/data/import/books:/cwa-book-ingest
       - /volume1/data/media/books:/calibre-library   
       #- /path/to/your/gmail/credentials.json:/app/calibre-web/gmail.json #Optional

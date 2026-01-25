@@ -8,5 +8,5 @@ services:
     ports:
       - '8945:8945'
     volumes:
-      - /volume1/configs/pinchflat:/config
+      - /volume1/docker/pinchflat:/config
       - /volume1/data/media/youtube:/downloads
