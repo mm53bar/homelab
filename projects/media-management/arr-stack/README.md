@@ -23,17 +23,12 @@ All these services:
 
 ## Separate Instances
 
-The following services have their own compose files for specific reasons:
-
-### Sonarr-SD & Radarr-SD
-**Location**: `sonarr-sd/` and `radarr-sd/`
-
-**Why separate**: Dedicated instances for standard definition content with different quality profiles and root folders.
+The following service has its own compose file:
 
 ### Syncarr
 **Location**: `syncarr/`
 
-**Why separate**: Utility that syncs between multiple instances (HD ↔ SD), separate lifecycle.
+**Why separate**: Utility for syncing library metadata between multiple Sonarr/Radarr instances. Has different lifecycle than the main arr services.
 
 ## Setup Order
 

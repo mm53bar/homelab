@@ -6,7 +6,7 @@ Hey, it's been 6 months and you forgot everything. Start here.
 
 Your entire homelab Docker infrastructure in Git, managed by Arcane.
 
-**39 projects** running on Synology NAS (192.168.0.56):
+**37 projects** running on Synology NAS (192.168.0.56):
 - Media automation (Plex, Sonarr, Radarr, etc.)
 - Download clients
 - Books, photos, dashboards
@@ -17,7 +17,7 @@ Your entire homelab Docker infrastructure in Git, managed by Arcane.
 - **Arcane Web UI**: http://192.168.0.56:3552
 - **Synology SSH**: `ssh <user>@192.168.0.56`
 - **Git Repo**: This directory
-- **Projects**: 39 (down from original 45 - consolidated arr-stack)
+- **Projects**: 37 (down from original 45 - consolidated arr-stack, removed SD variants)
 - **Public Safe**: Yes, no secrets in Git
 
 ## Most Common Tasks
@@ -51,7 +51,7 @@ Open http://192.168.0.56:3552
 | **SECRETS.md** | How to manage passwords/API keys |
 | **QUICKREF.md** | Common commands and operations |
 | **MIGRATION.md** | How we got here from Portainer |
-| **arcane-sync.json** | Bulk import all 39 projects |
+| **arcane-sync.json** | Bulk import all 37 projects |
 
 ## Read These in Order
 
@@ -68,9 +68,8 @@ Sonarr, Radarr, Lidarr, Readarr, Prowlarr, Bazarr, and Jackett are **consolidate
 - Reason: They share a network and work together
 - Import as: Single "arr-stack" project in Arcane
 
-Separate instances:
-- `sonarr-sd/` and `radarr-sd/` - For SD content
-- `syncarr/` - Syncs between HD/SD instances
+Separate instance:
+- `syncarr/` - Syncs library metadata between multiple instances
 
 ### Secrets (Very Important!)
 **NO SECRETS IN GIT**
@@ -119,8 +118,6 @@ homelab/
 ├── projects/
 │   ├── media-management/
 │   │   ├── arr-stack/        ← 7 services in one file!
-│   │   ├── sonarr-sd/
-│   │   ├── radarr-sd/
 │   │   └── syncarr/
 │   ├── media-servers/         ← Plex, Jellyfin
 │   ├── downloads/             ← NZBGet, qBittorrent, VPN
@@ -139,7 +136,7 @@ homelab/
 - **Before**: Numbered directories (compose/2, compose/5, etc.)
 - **After**: Categorized (projects/media-servers/plex/, etc.)
 - **Before**: 45 separate projects
-- **After**: 39 projects (arr-stack consolidated)
+- **After**: 37 projects (arr-stack consolidated, SD variants removed)
 - **Before**: Secrets in compose files
 - **After**: Secrets in .env (not in Git)
 
@@ -163,7 +160,7 @@ A: In Arcane's environment editor or local .env files (not in Git)
 A: Sonarr, Radarr, etc. in one compose file: `projects/media-management/arr-stack/`
 
 **Q: How many projects should I see in Arcane?**
-A: 39 projects (down from 45 - arr services consolidated)
+A: 37 projects (down from 45 - arr services consolidated, SD variants removed)
 
 ## Getting Re-oriented
 

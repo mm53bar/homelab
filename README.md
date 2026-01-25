@@ -4,7 +4,7 @@ This repository contains all Docker Compose configurations for my homelab servic
 
 ## Overview
 
-This homelab runs on a Synology NAS with Docker, managing 40+ services across various categories organized into 39 projects. The services were migrated from Portainer to Arcane for better Git-based management and automation.
+This homelab runs on a Synology NAS with Docker, managing 40+ services across various categories organized into 37 projects. The services were migrated from Portainer to Arcane for better Git-based management and automation.
 
 **Key Features**:
 - Consolidated arr-stack (Sonarr, Radarr, Prowlarr, etc.) in single compose file
@@ -14,7 +14,7 @@ This homelab runs on a Synology NAS with Docker, managing 40+ services across va
 
 ### Service Categories
 
-- **Media Management** (arr-stack): Consolidated compose file with Sonarr, Radarr, Lidarr, Readarr, Prowlarr, Bazarr, Jackett + separate Sonarr-SD, Radarr-SD, Syncarr
+- **Media Management** (arr-stack): Consolidated compose file with Sonarr, Radarr, Lidarr, Readarr, Prowlarr, Bazarr, Jackett + separate Syncarr
 - **Media Servers**: Plex, Jellyfin, Navidrome, Tdarr
 - **Download Clients**: NZBGet, qBittorrent, Transmission, Gluetun (VPN)
 - **Books & Comics**: Calibre, Calibre-Web, LazyLibrarian, Mylar3, Kavita
@@ -23,7 +23,7 @@ This homelab runs on a Synology NAS with Docker, managing 40+ services across va
 - **Personal Apps**: Paperless-NGX, Mealie, Wallabag, Forgejo
 - **Photos**: iCloudPD, PhotoStructure, Immich
 - **Database**: PostgreSQL, pgAdmin
-- **Utilities**: Omada Controller, Syncarr, YouTube-DL, iSponsorBlockTV, TRMNL
+- **Utilities**: Omada Controller, YouTube-DL, iSponsorBlockTV, TRMNL, Pinchflat
 
 ## Quick Start
 
@@ -71,7 +71,7 @@ docker run -d \
    - Click the arrow next to "Create Project" → select `From Git Repo`
    - Click `Import Multiple` 
    - Use the `arcane-sync.json` file from this repository
-   - This will import all 39 projects at once
+   - This will import all 37 projects at once
 
 3. **Enable Auto-Sync** (Optional):
    - Each project can be configured to automatically poll for changes
@@ -108,7 +108,7 @@ homelab/
 │   ├── photos/               # iCloudPD, PhotoStructure, Immich
 │   ├── database/             # PostgreSQL, pgAdmin
 │   └── utilities/            # Omada, Syncarr, YouTube-DL, etc.
-├── arcane-sync.json          # Bulk import configuration (39 projects)
+├── arcane-sync.json          # Bulk import configuration (37 projects)
 ├── SECRETS.md                # Secrets management guide
 ├── MIGRATION.md              # Migration notes from Portainer
 └── README.md                 # This file

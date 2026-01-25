@@ -190,26 +190,6 @@
   }
 ,
   {
-    "syncName": "radarr-sd",
-    "gitRepo": "homelab",
-    "branch": "main",
-    "dockerComposePath": "projects/media-management/radarr-sd/compose.yaml",
-    "autoSync": true,
-    "syncInterval": 5,
-    "enabled": true
-  }
-,
-  {
-    "syncName": "sonarr-sd",
-    "gitRepo": "homelab",
-    "branch": "main",
-    "dockerComposePath": "projects/media-management/sonarr-sd/compose.yaml",
-    "autoSync": true,
-    "syncInterval": 5,
-    "enabled": true
-  }
-,
-  {
     "syncName": "syncarr",
     "gitRepo": "homelab",
     "branch": "main",
