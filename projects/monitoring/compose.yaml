@@ -6,14 +6,14 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     ports:
-      - 8888:8080
+      - 8889:8080
 
   uptime-kuma:
     container_name: uptime-kuma
     image: louislam/uptime-kuma:1
     restart: unless-stopped
     volumes:
-      - /volume1/docker/uptime-kuma:/app/data
+      - uptime-kuma-data:/app/data
     ports:
       - 3001:3001
 
@@ -34,7 +34,7 @@ services:
     image: henrygd/beszel:latest
     restart: unless-stopped
     volumes:
-      - /volume1/docker/beszel:/beszel_data
+      - beszel-data:/beszel_data
     ports:
       - 8090:8090
 
@@ -48,3 +48,7 @@ services:
       - APPRISE_URL=${LOGGIFLY_APPRISE_URL}
       - MONITOR_ALL_CONTAINERS=true
       - GLOBAL_KEYWORDS=error,fatal,exception,panic,oom,killed
+
+volumes:
+  uptime-kuma-data:
+  beszel-data:
