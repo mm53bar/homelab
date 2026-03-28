@@ -1,0 +1,60 @@
+services:
+  dozzle:
+    container_name: dozzle
+    image: amir20/dozzle:latest
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    ports:
+      - 8888:8080
+
+  checkmate:
+    container_name: checkmate
+    image: bluewavelabs/checkmate:latest
+    restart: unless-stopped
+    environment:
+      - DB_CONNECTION_STRING=mongodb://checkmate-db:27017/checkmate
+      - JWT_SECRET=${CHECKMATE_JWT_SECRET}
+      - CLIENT_HOST=http://0.0.0.0:32383
+    ports:
+      - 32383:32383
+    depends_on:
+      - checkmate-db
+
+  checkmate-db:
+    container_name: checkmate-db
+    image: mongo:6
+    restart: unless-stopped
+    volumes:
+      - /volume1/docker/checkmate/db:/data/db
+
+  pulse:
+    container_name: pulse
+    image: ghcr.io/rcourtman/pulse:latest
+    restart: unless-stopped
+    environment:
+      - PROXMOX_NODE_1_NAME=tim
+      - PROXMOX_NODE_1_HOST=https://192.168.0.60:8006
+      - PROXMOX_NODE_1_TOKEN_ID=${PROXMOX_TOKEN_ID}
+      - PROXMOX_NODE_1_TOKEN_SECRET=${PROXMOX_TOKEN_SECRET}
+    ports:
+      - 7655:7655
+
+  beszel:
+    container_name: beszel
+    image: henrygd/beszel:latest
+    restart: unless-stopped
+    volumes:
+      - /volume1/docker/beszel:/beszel_data
+    ports:
+      - 8090:8090
+
+  loggifly:
+    container_name: loggifly
+    image: clemcer/loggifly:latest
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /volume1/docker/loggifly:/config
+    environment:
+      - APPRISE_URL=${LOGGIFLY_APPRISE_URL}
