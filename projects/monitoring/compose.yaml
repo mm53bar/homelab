@@ -8,25 +8,45 @@ services:
     ports:
       - 8888:8080
 
-  checkmate:
-    container_name: checkmate
-    image: bluewavelabs/checkmate:latest
+  checkmate-client:
+    container_name: checkmate-client
+    image: ghcr.io/bluewave-labs/checkmate-client:latest
     restart: unless-stopped
     environment:
-      - DB_CONNECTION_STRING=mongodb://checkmate-db:27017/checkmate
-      - JWT_SECRET=${CHECKMATE_JWT_SECRET}
-      - CLIENT_HOST=http://0.0.0.0:32383
+      - UPTIME_APP_API_BASE_URL=http://192.168.0.56:32345/api/v1
+      - UPTIME_APP_CLIENT_HOST=http://192.168.0.56
     ports:
-      - 32383:32383
+      - 32380:80
+    depends_on:
+      - checkmate-server
+
+  checkmate-server:
+    container_name: checkmate-server
+    image: ghcr.io/bluewave-labs/checkmate-backend:latest
+    restart: unless-stopped
+    ports:
+      - 32345:52345
     depends_on:
       - checkmate-db
+    environment:
+      - DB_CONNECTION_STRING=mongodb://checkmate-db:27017/uptime_db
+      - CLIENT_HOST=http://192.168.0.56:32380
+      - JWT_SECRET=${CHECKMATE_JWT_SECRET}
 
   checkmate-db:
     container_name: checkmate-db
-    image: mongo:6
+    image: ghcr.io/bluewave-labs/checkmate-mongo:latest
     restart: unless-stopped
     volumes:
       - /volume1/docker/checkmate/db:/data/db
+    command: ["mongod", "--quiet", "--bind_ip_all"]
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')", "--quiet"]
+      interval: 5s
+      timeout: 30s
+      start_period: 0s
+      start_interval: 1s
+      retries: 30
 
   pulse:
     container_name: pulse
@@ -51,10 +71,11 @@ services:
 
   loggifly:
     container_name: loggifly
-    image: clemcer/loggifly:latest
+    image: ghcr.io/clemcer/loggifly:v1
     restart: unless-stopped
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - /volume1/docker/loggifly:/config
     environment:
       - APPRISE_URL=${LOGGIFLY_APPRISE_URL}
+      - MONITOR_ALL_CONTAINERS=true
+      - GLOBAL_KEYWORDS=error,fatal,exception,panic,oom,killed
