@@ -148,23 +148,6 @@ services:
       - PGID=${PGID:-100}
       - TZ=${TZ:-America/Edmonton}
 
-  # Books/audiobooks management
-  readarr:
-    image: lscr.io/linuxserver/readarr:nightly
-    container_name: media-readarr
-    restart: unless-stopped
-    expose:
-      - 8787/tcp
-    ports:
-      - ${READARR_PORT:-8787}:8787
-    volumes:
-      - ${CONFIG_STORAGE:-/volume1/docker}/media-readarr:/config
-      - ${MEDIA_STORAGE:-/volume1/data}:/data
-    environment:
-      - PUID=${PUID:-1027}
-      - PGID=${PGID:-100}
-      - TZ=${TZ:-America/Edmonton}
-
   # Subtitle management
   bazarr:
     image: lscr.io/linuxserver/bazarr:latest
