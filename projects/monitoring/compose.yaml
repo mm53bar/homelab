@@ -8,45 +8,14 @@ services:
     ports:
       - 8888:8080
 
-  checkmate-client:
-    container_name: checkmate-client
-    image: ghcr.io/bluewave-labs/checkmate-client:latest
-    restart: unless-stopped
-    environment:
-      - UPTIME_APP_API_BASE_URL=http://192.168.0.56:32345/api/v1
-      - UPTIME_APP_CLIENT_HOST=http://192.168.0.56
-    ports:
-      - 32380:80
-    depends_on:
-      - checkmate-server
-
-  checkmate-server:
-    container_name: checkmate-server
-    image: ghcr.io/bluewave-labs/checkmate-backend:latest
-    restart: unless-stopped
-    ports:
-      - 32345:52345
-    depends_on:
-      - checkmate-db
-    environment:
-      - DB_CONNECTION_STRING=mongodb://checkmate-db:27017/uptime_db
-      - CLIENT_HOST=http://192.168.0.56:32380
-      - JWT_SECRET=${CHECKMATE_JWT_SECRET}
-
-  checkmate-db:
-    container_name: checkmate-db
-    image: ghcr.io/bluewave-labs/checkmate-mongo:latest
+  uptime-kuma:
+    container_name: uptime-kuma
+    image: louislam/uptime-kuma:1
     restart: unless-stopped
     volumes:
-      - /volume1/docker/checkmate/db:/data/db
-    command: ["mongod", "--quiet", "--bind_ip_all"]
-    healthcheck:
-      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')", "--quiet"]
-      interval: 5s
-      timeout: 30s
-      start_period: 0s
-      start_interval: 1s
-      retries: 30
+      - /volume1/docker/uptime-kuma:/app/data
+    ports:
+      - 3001:3001
 
   pulse:
     container_name: pulse
