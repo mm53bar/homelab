@@ -150,7 +150,7 @@ services:
 
   # Books/audiobooks management
   readarr:
-    image: lscr.io/linuxserver/readarr:develop
+    image: lscr.io/linuxserver/readarr:nightly
     container_name: media-readarr
     restart: unless-stopped
     expose:
@@ -199,6 +199,21 @@ services:
       - PGID=${PGID:-100}
       - TZ=${TZ:-America/Edmonton}
       - AUTO_UPDATE=true
+
+  # Automated poster/artwork management — triggered by Sonarr/Radarr webhooks
+  daps:
+    image: ghcr.io/drazzilb08/daps:latest
+    container_name: media-daps
+    restart: unless-stopped
+    ports:
+      - ${DAPS_PORT:-8099}:8000
+    volumes:
+      - ${CONFIG_STORAGE:-/volume1/docker}/media-daps:/config
+      - ${MEDIA_STORAGE:-/volume1/data}:/media
+    environment:
+      - PUID=${PUID:-1027}
+      - PGID=${PGID:-100}
+      - TZ=${TZ:-America/Edmonton}
 
 networks:
   default:
