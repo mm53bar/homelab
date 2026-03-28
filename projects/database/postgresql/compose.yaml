@@ -1,38 +1,40 @@
-services:  
+services:
   db:
-    container_name: PostgreSQL
-    image: postgres
-    mem_limit: 256m
-    cpu_shares: 768
-    env_file:
-      - .env
-    healthcheck:
-      test: ["CMD", "pg_isready", "-q", "-d", "${POSTGRES_DB:-backson_DB}", "-U", "${POSTGRES_USER:-root}"]
+    container_name: postgresql
+    image: postgres:17
+    restart: unless-stopped
+    env_file: .env
     environment:
-      POSTGRES_USER: ${POSTGRES_USER:-root}
+      POSTGRES_USER: ${POSTGRES_USER:-homelab}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB:-backson_DB}
+      POSTGRES_DB: ${POSTGRES_DB:-homelab}
     volumes:
-      - /volume1/docker/postgresql:/var/lib/postgresql/data:rw
+      - postgresql-data:/var/lib/postgresql/data
     ports:
-      - 2665:5432
-    restart: on-failure:5
-  
-  pgadmin:
-    container_name: pgAdmin
-    image: dpage/pgadmin4:latest
-    mem_limit: 256m
-    cpu_shares: 768
-    env_file:
-      - .env
+      - "2665:5432"
     healthcheck:
-      test: wget --no-verbose --tries=1 --spider http://localhost:5050
+      test: ["CMD", "pg_isready", "-U", "${POSTGRES_USER:-homelab}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4:latest
+    restart: unless-stopped
+    env_file: .env
     environment:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
       PGADMIN_LISTEN_PORT: 5050
     ports:
-      - 2660:5050
+      - "2660:5050"
     volumes:
-      - /volume1/docker/postgresadmin:/var/lib/pgadmin:rw
-    restart: on-failure:5
+      - pgadmin-data:/var/lib/pgadmin
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  postgresql-data:
+  pgadmin-data:

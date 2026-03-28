@@ -183,7 +183,31 @@ services:
       - TZ=${TZ:-America/Edmonton}
       - AUTO_UPDATE=true
 
+  # Automated poster maker for Plex - fetches textless art from Fanart.tv, TMDB, TVDB
+  posterizarr:
+    image: ghcr.io/fscorrupt/posterizarr:latest
+    container_name: media-posterizarr
+    restart: unless-stopped
+    ports:
+      - ${POSTERIZARR_PORT:-8765}:8000
+    volumes:
+      - posterizarr_config:/config
+      - posterizarr_assetsbackup:/assetsbackup
+      - ${MEDIA_STORAGE:-/volume1/data}/media/posters:/assets
+      - ${IMPORT_STORAGE:-/volume1/data/import}/posters:/manualassets
+    environment:
+      - TZ=${TZ:-America/Edmonton}
+      - TERM=xterm
+      - RUN_TIME=disabled
+      - ARR_WAIT_TIME=0
+      - PUID=
+      - PGID=
+
 networks:
   default:
     name: media-network
     external: true
+
+volumes:
+  posterizarr_config:
+  posterizarr_assetsbackup:
