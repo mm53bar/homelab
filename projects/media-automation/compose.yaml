@@ -188,6 +188,7 @@ services:
     image: ghcr.io/fscorrupt/posterizarr:latest
     container_name: media-posterizarr
     restart: unless-stopped
+    user: root
     ports:
       - ${POSTERIZARR_PORT:-8765}:8000
     volumes:
