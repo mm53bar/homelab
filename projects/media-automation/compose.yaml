@@ -188,12 +188,12 @@ services:
     image: ghcr.io/fscorrupt/posterizarr:latest
     container_name: media-posterizarr
     restart: unless-stopped
-    user: root
+    user: "${PUID:-1027}:${PGID:-100}"
     ports:
       - ${POSTERIZARR_PORT:-8765}:8000
     volumes:
-      - posterizarr_config:/config
-      - posterizarr_assetsbackup:/assetsbackup
+      - ${CONFIG_STORAGE:-/volume1/docker}/media-posterizarr/config:/config
+      - ${CONFIG_STORAGE:-/volume1/docker}/media-posterizarr/assetsbackup:/assetsbackup
       - ${MEDIA_STORAGE:-/volume1/data}/media/posters:/assets
       - ${IMPORT_STORAGE:-/volume1/data/import}/posters:/manualassets
     environment:
@@ -201,14 +201,8 @@ services:
       - TERM=xterm
       - RUN_TIME=disabled
       - ARR_WAIT_TIME=0
-      - PUID=
-      - PGID=
 
 networks:
   default:
     name: media-network
     external: true
-
-volumes:
-  posterizarr_config:
-  posterizarr_assetsbackup:
