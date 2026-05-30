@@ -11,7 +11,11 @@ services:
       - 8083:8083
     volumes:
       - ${CONFIG_STORAGE:-/volume1/docker}/calibre-web:/config
-      - ${IMPORT_STORAGE:-/volume1/data/import}/books:/cwa-book-ingest
+      # Ingest redirected 2026-05-30 — tsundoku (tsundoku.backson.boo) now watches
+      # /volume1/data/import/books. CWA points at a dedicated empty folder so its
+      # inotify ingest watcher always has a valid path but never receives files.
+      # CWA = read-only viewer for the existing library. Remove once tsundoku is proven.
+      - ${CONFIG_STORAGE:-/volume1/docker}/calibre-web/disabled-ingest:/cwa-book-ingest
       - ${MEDIA_STORAGE:-/volume1/data}/media/books:/calibre-library
     environment:
       - PUID=${PUID:-1027}
